@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-card: #1a1a26;
+  --accent-neon-pink: #ff2d78;
+  --accent-neon-cyan: #00d4ff;
+  --accent-neon-yellow: #ffd60a;
+  --accent-purple: #7b2fff;
+  --text-primary: #f0f0f5;
+  --text-secondary: #8888aa;
+  --text-muted: #555566;
+  --border: rgba(255, 45, 120, 0.15);
+  --glow-pink: 0 0 20px rgba(255, 45, 120, 0.4);
+  --glow-cyan: 0 0 20px rgba(0, 212, 255, 0.4);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+a {
+  color: var(--accent-neon-pink);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-neon-cyan);
+}
+
+button {
+  font-family: 'DM Sans', sans-serif;
+}
+
+code,
+pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-neon-pink);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-neon-cyan);
+}
+
+/* Selection color */
+::selection {
+  background: var(--accent-neon-pink);
+  color: var(--bg-primary);
+}
+
+/* Smooth transitions */
+@layer components {
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .neon-border {
+    @apply border border-accent-neon-pink/20 transition-all duration-300 hover:border-accent-neon-pink/60 hover:shadow-glow-pink;
+  }
+
+  .neon-text {
+    @apply text-accent-neon-pink transition-colors duration-300 hover:text-accent-neon-cyan;
+  }
+
+  .glass-effect {
+    @apply backdrop-blur-md bg-black/30 border border-white/10;
+  }
+}
