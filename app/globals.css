@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --bg-primary: #0a0a0f;
@@ -89,21 +87,32 @@ pre {
   color: var(--bg-primary);
 }
 
-/* Smooth transitions */
-@layer components {
-  .transition-smooth {
-    @apply transition-all duration-300 ease-in-out;
-  }
+/* Custom utility classes */
+.transition-smooth {
+  transition: all 0.3s ease-in-out;
+}
 
-  .neon-border {
-    @apply border border-accent-neon-pink/20 transition-all duration-300 hover:border-accent-neon-pink/60 hover:shadow-glow-pink;
-  }
+.neon-border {
+  border: 1px solid rgba(255, 45, 120, 0.2);
+  transition: all 0.3s ease-in-out;
+}
 
-  .neon-text {
-    @apply text-accent-neon-pink transition-colors duration-300 hover:text-accent-neon-cyan;
-  }
+.neon-border:hover {
+  border-color: rgba(255, 45, 120, 0.6);
+  box-shadow: var(--glow-pink);
+}
 
-  .glass-effect {
-    @apply backdrop-blur-md bg-black/30 border border-white/10;
-  }
+.neon-text {
+  color: var(--accent-neon-pink);
+  transition: color 0.3s ease-in-out;
+}
+
+.neon-text:hover {
+  color: var(--accent-neon-cyan);
+}
+
+.glass-effect {
+  backdrop-filter: blur(12px);
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }

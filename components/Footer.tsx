@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Github, Twitter, Mail } from 'lucide-react';
+import { Mail, MessageCircle, Code2 } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -61,16 +61,16 @@ const Footer = () => {
               <a
                 href="#"
                 className="text-text-secondary hover:text-accent-neon-pink transition-colors"
-                aria-label="Twitter"
+                aria-label="X (Twitter)"
               >
-                <Twitter size={20} />
+                <MessageCircle size={20} />
               </a>
               <a
                 href="#"
                 className="text-text-secondary hover:text-accent-neon-pink transition-colors"
                 aria-label="GitHub"
               >
-                <Github size={20} />
+                <Code2 size={20} />
               </a>
               <a
                 href="#"

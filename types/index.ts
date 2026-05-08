@@ -34,6 +34,8 @@ export interface CreateArticleInput {
   seo_title?: string;
   seo_description?: string;
   reading_time: number;
+  status?: ArticleStatus;
+  published_at?: string | null;
 }
 
 export interface PipelineLog {

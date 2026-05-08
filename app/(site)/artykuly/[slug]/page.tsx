@@ -211,7 +211,7 @@ export default async function ArticlePage({ params }: PageProps) {
           <div className="mb-16">
             <h3 className="text-sm font-display font-bold text-text-secondary mb-4">TAGI</h3>
             <div className="flex gap-3 flex-wrap">
-              {article.tags.map((tag) => (
+              {article.tags.map((tag: string) => (
                 <Link
                   key={tag}
                   href={`/artykuly?tag=${tag}`}
