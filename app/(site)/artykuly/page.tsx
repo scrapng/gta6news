@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import ArticleGrid from '@/components/ArticleGrid';
 import { supabase } from '@/lib/supabase';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Wszystkie artykuły - GTA6News',
   description: 'Przeczytaj wszystkie artykuły o Grand Theft Auto VI na portalu GTA6News.',

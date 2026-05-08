@@ -4,6 +4,8 @@ import Countdown from '@/components/Countdown';
 import ArticleGrid from '@/components/ArticleGrid';
 import { supabase } from '@/lib/supabase';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'GTA6News - Twoje źródło informacji o GTA VI',
   description: 'Najnowsze artykuły, newsy, gameplay i plotki o Grand Theft Auto VI. Ponieważ GTA VI zmieni graczy na zawsze.',

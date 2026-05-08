@@ -9,6 +9,8 @@ import { formatDate, calculateReadingTime } from '@/lib/utils';
 import { ArrowLeft, Share2, Calendar, Clock } from 'lucide-react';
 import ArticleCard from '@/components/ArticleCard';
 
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
   params: Promise<{
     slug: string;
@@ -233,7 +235,7 @@ export default async function ArticlePage({ params }: PageProps) {
               <span className="text-accent-neon-pink">POWIĄZANE</span> ARTYKUŁY
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {relatedArticles.map((art) => (
+              {relatedArticles.map((art: any) => (
                 <ArticleCard key={art.id} article={art} />
               ))}
             </div>
