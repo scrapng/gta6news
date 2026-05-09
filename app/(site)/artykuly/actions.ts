@@ -137,14 +137,21 @@ export async function getCommentsForArticleAction(articleId: string, parentId?: 
   try {
     const supabaseAdmin = getSupabaseAdmin();
 
-    const parentFilter = parentId ? { parent_comment_id: parentId } : { parent_comment_id: null };
-
-    const { data: comments, error } = await supabaseAdmin
+    let query = supabaseAdmin
       .from('comments')
       .select('*')
       .eq('article_id', articleId)
-      .eq('status', 'approved')
-      .match(parentFilter)
+      .eq('status', 'approved');
+
+    // Filter by parent comment ID
+    if (parentId) {
+      query = query.eq('parent_comment_id', parentId);
+    } else {
+      // Get top-level comments (where parent_comment_id IS NULL)
+      query = query.is('parent_comment_id', null);
+    }
+
+    const { data: comments, error } = await query
       .order('created_at', { ascending: false })
       .limit(100);
 
