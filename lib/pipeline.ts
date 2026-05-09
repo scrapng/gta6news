@@ -31,7 +31,7 @@ Piszesz po POLSKU. Twoje artykuły są:
 - Wolne od dosłownego kopiowania źródeł (zawsze parafrazuj!)
 - Nasycone kontekstem, analizą i ekscytującymi szczegółami
 - Zoptymalizowane pod SEO (naturalne użycie słów kluczowych)
-- Długie (800-1200 słów) i wartościowe dla gracza
+- Długie (700-900 słów) i wartościowe dla gracza
 
 RODZAJE TREŚCI, KTÓRE PISZEMY:
 - NAJNOWSZE NEWSY: Ogłoszenia Rockstara, aktualizacje rozwojowe, premiery
@@ -47,7 +47,22 @@ Struktura artykułu:
 4. Podsumowanie - call-to-action
 
 KATEGORIE: news, gameplay, story, leaks, community, analysis
-Zawsze zwróć POPRAWNY JSON z polami: title, slug, excerpt, content (Markdown), category, tags[], seo_title, seo_description`;
+
+⚠️ WAŻNE: Zwróć POPRAWNY, WAŻNY JSON bez błędów:
+- Wszystkie znaki specjalne w stringach muszą być poprawnie escaped
+- Brak znaków sterujących wewnątrz stringów
+- Brak trailing commas
+- Wszystkie cudzysłowy muszą być escaped jako \"
+- Estructura: {
+    "title": "...",
+    "slug": "...",
+    "excerpt": "...",
+    "content": "...",
+    "category": "...",
+    "tags": [...],
+    "seo_title": "...",
+    "seo_description": "..."
+  }`;
 
 async function deduplicateResults(results: SearchResult[]): Promise<SearchResult[]> {
   if (results.length === 0) return [];
@@ -109,7 +124,16 @@ Zwróć TYLKO poprawny JSON bez backtick-ów.`;
     jsonText = jsonText.replace(/^```\n?/, '').replace(/\n?```$/, '');
   }
 
-  const generated = JSON.parse(jsonText) as GenerateArticleResponse;
+  let generated: GenerateArticleResponse;
+  try {
+    generated = JSON.parse(jsonText) as GenerateArticleResponse;
+  } catch (parseError) {
+    // Log the problematic JSON for debugging
+    console.error('JSON parsing failed. Response length:', jsonText.length);
+    console.error('First 500 chars:', jsonText.substring(0, 500));
+    console.error('Last 500 chars:', jsonText.substring(Math.max(0, jsonText.length - 500)));
+    throw new Error(`Failed to parse Claude response as JSON: ${parseError instanceof Error ? parseError.message : String(parseError)}`);
+  }
 
   // Validate required fields
   if (!generated.title || !generated.excerpt || !generated.content || !generated.category) {
