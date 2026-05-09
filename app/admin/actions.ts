@@ -157,6 +157,11 @@ export async function updateArticleAction(
     content?: string;
     seo_title?: string;
     seo_description?: string;
+    cover_image?: string;
+    image_photographer_name?: string;
+    image_photographer_url?: string;
+    image_source?: string;
+    image_source_url?: string;
   }
 ) {
   try {

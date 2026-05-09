@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Article } from '@/types';
 import { publishArticleAction, rejectArticleAction, hideArticleAction, deleteArticleAction, updateArticleAction } from '@/app/admin/actions';
-import { Edit, Trash2, Eye, EyeOff, Check, X } from 'lucide-react';
+import { Edit, Trash2, Eye, EyeOff, Check, X, Upload, XCircle } from 'lucide-react';
 
 interface AdminArticleActionsProps {
   article: Article;
@@ -18,6 +19,11 @@ export default function AdminArticleActions({ article, onRefresh }: AdminArticle
     excerpt: article.excerpt,
     seo_title: article.seo_title || '',
     seo_description: article.seo_description || '',
+    cover_image: article.cover_image || '',
+    image_photographer_name: article.image_photographer_name || '',
+    image_photographer_url: article.image_photographer_url || '',
+    image_source: article.image_source || '',
+    image_source_url: article.image_source_url || '',
   });
 
   const handlePublish = async () => {
@@ -80,49 +86,149 @@ export default function AdminArticleActions({ article, onRefresh }: AdminArticle
 
   if (isEditing) {
     return (
-      <div className="bg-gradient-to-br from-bg-card/60 to-bg-card/40 border border-accent-neon-magenta/30 rounded-xl p-6 space-y-5 mb-4 shadow-lg shadow-accent-neon-magenta/10">
-        <h4 className="font-display font-bold text-xl bg-gradient-to-r from-accent-neon-magenta to-accent-neon-cyan bg-clip-text text-transparent">✏️ Edit Article</h4>
+      <div className="w-full bg-gradient-to-br from-bg-card/60 to-bg-card/40 border border-accent-neon-magenta/30 rounded-xl p-6 space-y-6 mb-4 shadow-lg shadow-accent-neon-magenta/10 max-w-2xl">
+        <h4 className="font-display font-bold text-xl text-accent-neon-magenta">✏️ Edit Article</h4>
 
-        <div>
-          <label className="text-sm font-semibold text-text-secondary block mb-3">Title</label>
-          <input
-            type="text"
-            value={editData.title}
-            onChange={(e) => setEditData({ ...editData, title: e.target.value })}
-            className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary focus:border-accent-neon-magenta focus:outline-none transition-all"
-          />
+        {/* Basic Info Section */}
+        <div className="space-y-4 pb-6 border-b border-accent-neon-magenta/10">
+          <h5 className="text-sm font-semibold text-accent-neon-cyan uppercase tracking-wide">Basic Information</h5>
+
+          <div>
+            <label className="text-xs font-semibold text-text-secondary block mb-2 uppercase tracking-wide">Title</label>
+            <input
+              type="text"
+              value={editData.title}
+              onChange={(e) => setEditData({ ...editData, title: e.target.value })}
+              className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary focus:border-accent-neon-magenta focus:outline-none transition-all"
+            />
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold text-text-secondary block mb-2 uppercase tracking-wide">Excerpt</label>
+            <textarea
+              value={editData.excerpt}
+              onChange={(e) => setEditData({ ...editData, excerpt: e.target.value })}
+              rows={3}
+              className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary focus:border-accent-neon-magenta focus:outline-none transition-all resize-none"
+            />
+          </div>
         </div>
 
-        <div>
-          <label className="text-sm font-semibold text-text-secondary block mb-3">Excerpt</label>
-          <textarea
-            value={editData.excerpt}
-            onChange={(e) => setEditData({ ...editData, excerpt: e.target.value })}
-            rows={3}
-            className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary focus:border-accent-neon-magenta focus:outline-none transition-all resize-none"
-          />
+        {/* Image Section */}
+        <div className="space-y-4 pb-6 border-b border-accent-neon-magenta/10">
+          <h5 className="text-sm font-semibold text-accent-neon-orange uppercase tracking-wide">Cover Image</h5>
+
+          {editData.cover_image && (
+            <div className="relative w-full h-40 rounded-lg overflow-hidden border border-accent-neon-magenta/20">
+              <Image
+                src={editData.cover_image}
+                alt="Cover preview"
+                fill
+                className="object-cover"
+              />
+              <button
+                type="button"
+                onClick={() => setEditData({ ...editData, cover_image: '' })}
+                className="absolute top-2 right-2 p-1 bg-red-600/80 hover:bg-red-600 rounded-full text-white transition-all"
+              >
+                <XCircle size={20} />
+              </button>
+            </div>
+          )}
+
+          <div>
+            <label className="text-xs font-semibold text-text-secondary block mb-2 uppercase tracking-wide">Image URL</label>
+            <div className="flex gap-2">
+              <input
+                type="url"
+                value={editData.cover_image}
+                onChange={(e) => setEditData({ ...editData, cover_image: e.target.value })}
+                placeholder="https://example.com/image.jpg"
+                className="flex-1 px-4 py-3 bg-bg-secondary/50 border border-accent-neon-orange/20 hover:border-accent-neon-orange/40 rounded-lg text-text-primary focus:border-accent-neon-orange focus:outline-none transition-all"
+              />
+              <button
+                type="button"
+                className="px-4 py-3 bg-accent-neon-orange/20 hover:bg-accent-neon-orange/30 border border-accent-neon-orange/30 hover:border-accent-neon-orange text-accent-neon-orange rounded-lg transition-all flex items-center gap-2"
+              >
+                <Upload size={18} />
+              </button>
+            </div>
+          </div>
+
+          {/* Image Credits */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div>
+              <label className="text-xs font-semibold text-text-secondary block mb-2 uppercase tracking-wide">Photographer Name</label>
+              <input
+                type="text"
+                value={editData.image_photographer_name}
+                onChange={(e) => setEditData({ ...editData, image_photographer_name: e.target.value })}
+                placeholder="John Doe"
+                className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-cyan/20 hover:border-accent-neon-cyan/40 rounded-lg text-text-primary focus:border-accent-neon-cyan focus:outline-none transition-all text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-text-secondary block mb-2 uppercase tracking-wide">Photographer URL</label>
+              <input
+                type="url"
+                value={editData.image_photographer_url}
+                onChange={(e) => setEditData({ ...editData, image_photographer_url: e.target.value })}
+                placeholder="https://example.com"
+                className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-cyan/20 hover:border-accent-neon-cyan/40 rounded-lg text-text-primary focus:border-accent-neon-cyan focus:outline-none transition-all text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-text-secondary block mb-2 uppercase tracking-wide">Image Source (e.g., Unsplash)</label>
+              <input
+                type="text"
+                value={editData.image_source}
+                onChange={(e) => setEditData({ ...editData, image_source: e.target.value })}
+                placeholder="unsplash"
+                className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-lime/20 hover:border-accent-neon-lime/40 rounded-lg text-text-primary focus:border-accent-neon-lime focus:outline-none transition-all text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-text-secondary block mb-2 uppercase tracking-wide">Source URL</label>
+              <input
+                type="url"
+                value={editData.image_source_url}
+                onChange={(e) => setEditData({ ...editData, image_source_url: e.target.value })}
+                placeholder="https://unsplash.com/..."
+                className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-lime/20 hover:border-accent-neon-lime/40 rounded-lg text-text-primary focus:border-accent-neon-lime focus:outline-none transition-all text-sm"
+              />
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label className="text-sm font-semibold text-text-secondary block mb-3">SEO Title</label>
-          <input
-            type="text"
-            value={editData.seo_title}
-            onChange={(e) => setEditData({ ...editData, seo_title: e.target.value })}
-            className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary focus:border-accent-neon-magenta focus:outline-none transition-all"
-          />
+        {/* SEO Section */}
+        <div className="space-y-4 pb-6">
+          <h5 className="text-sm font-semibold text-accent-neon-pink uppercase tracking-wide">SEO Settings</h5>
+
+          <div>
+            <label className="text-xs font-semibold text-text-secondary block mb-2 uppercase tracking-wide">SEO Title</label>
+            <input
+              type="text"
+              value={editData.seo_title}
+              onChange={(e) => setEditData({ ...editData, seo_title: e.target.value })}
+              className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary focus:border-accent-neon-magenta focus:outline-none transition-all"
+            />
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold text-text-secondary block mb-2 uppercase tracking-wide">SEO Description</label>
+            <textarea
+              value={editData.seo_description}
+              onChange={(e) => setEditData({ ...editData, seo_description: e.target.value })}
+              rows={2}
+              className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary focus:border-accent-neon-magenta focus:outline-none transition-all resize-none"
+            />
+          </div>
         </div>
 
-        <div>
-          <label className="text-sm font-semibold text-text-secondary block mb-3">SEO Description</label>
-          <textarea
-            value={editData.seo_description}
-            onChange={(e) => setEditData({ ...editData, seo_description: e.target.value })}
-            rows={2}
-            className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary focus:border-accent-neon-magenta focus:outline-none transition-all resize-none"
-          />
-        </div>
-
+        {/* Action Buttons */}
         <div className="flex gap-3 pt-3">
           <button
             onClick={handleSaveEdit}
