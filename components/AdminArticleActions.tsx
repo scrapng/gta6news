@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Article } from '@/types';
 import { publishArticleAction, rejectArticleAction, hideArticleAction, deleteArticleAction, updateArticleAction } from '@/app/admin/actions';
-import { Edit, Trash2, Eye, EyeOff, Check, X, Upload, XCircle } from 'lucide-react';
+import { Edit, Trash2, Eye, EyeOff, Check, X, XCircle } from 'lucide-react';
 
 interface AdminArticleActionsProps {
   article: Article;
@@ -138,21 +138,13 @@ export default function AdminArticleActions({ article, onRefresh }: AdminArticle
 
           <div>
             <label className="text-xs font-semibold text-text-secondary block mb-2 uppercase tracking-wide">Image URL</label>
-            <div className="flex gap-2">
-              <input
-                type="url"
-                value={editData.cover_image}
-                onChange={(e) => setEditData({ ...editData, cover_image: e.target.value })}
-                placeholder="https://example.com/image.jpg"
-                className="flex-1 px-4 py-3 bg-bg-secondary/50 border border-accent-neon-orange/20 hover:border-accent-neon-orange/40 rounded-lg text-text-primary focus:border-accent-neon-orange focus:outline-none transition-all"
-              />
-              <button
-                type="button"
-                className="px-4 py-3 bg-accent-neon-orange/20 hover:bg-accent-neon-orange/30 border border-accent-neon-orange/30 hover:border-accent-neon-orange text-accent-neon-orange rounded-lg transition-all flex items-center gap-2"
-              >
-                <Upload size={18} />
-              </button>
-            </div>
+            <input
+              type="url"
+              value={editData.cover_image}
+              onChange={(e) => setEditData({ ...editData, cover_image: e.target.value })}
+              placeholder="https://example.com/image.jpg"
+              className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-orange/20 hover:border-accent-neon-orange/40 rounded-lg text-text-primary focus:border-accent-neon-orange focus:outline-none transition-all"
+            />
           </div>
 
           {/* Image Credits */}
