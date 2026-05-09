@@ -40,11 +40,19 @@ RODZAJE TREŚCI, KTÓRE PISZEMY:
 - ŚWIAT GRY: Vice City, postacie, locations, lore
 - CIEKAWOSTKI: Historia rozwoju, inspiracje, behind-the-scenes
 
-Struktura artykułu:
-1. Chwytliwy lead (2-3 zdania) - zapalaj zainteresowanie!
-2. Główna treść z śródtytułami H2/H3 - szczegóły i kontekst
+Struktura artykułu (MARKDOWN format):
+1. Chwytliwy lead (2-3 zdania) - zapalaj zainteresowanie! (NO HEADINGS, po prostu tekst)
+2. Główna treść z nagłówkami Markdown ## i ### - szczegóły i kontekst
 3. Analiza lub ciekawe powiązania - dodaj wartość
 4. Podsumowanie - call-to-action
+
+MARKDOWN SYNTAX (WAŻNE!):
+- Nagłówki: ## Nagłówek (NIE <h2>, NIE HTML!)
+- Podnadłówki: ### Podnadłówek
+- Paragrafy: po prostu tekst oddzielony pustymi liniami
+- Pogrubienie: **tekst**
+- Pochylenie: *tekst*
+- Listy: - element (NIE <ul>, NIE HTML!)
 
 KATEGORIE: news, gameplay, story, leaks, community, analysis
 
