@@ -4,6 +4,7 @@ import { getSupabaseAdmin } from '@/lib/supabase';
 
 export async function getArticleBySlugAction(slug: string) {
   try {
+    console.log(`[Server Action] Fetching article with slug: ${slug}`);
     const supabaseAdmin = getSupabaseAdmin();
 
     const { data, error } = await supabaseAdmin
@@ -14,13 +15,14 @@ export async function getArticleBySlugAction(slug: string) {
       .single();
 
     if (error) {
-      console.error('Error fetching article:', error);
+      console.error('[Server Action] Supabase error:', error);
       return null;
     }
 
+    console.log(`[Server Action] Article found: ${data?.title}`);
     return data;
   } catch (error) {
-    console.error('Error in getArticleBySlugAction:', error);
+    console.error('[Server Action] Error in getArticleBySlugAction:', error);
     return null;
   }
 }
