@@ -24,18 +24,14 @@ export default function CommentForm({ articleId, parentCommentId, onCommentAdded
     setMessage(null);
 
     try {
-      // Get user IP (approximate - from browser)
-      const response = await submitCommentAction(
-        {
-          article_id: articleId,
-          parent_comment_id: parentCommentId,
-          author_name: name,
-          author_email: email,
-          content,
-        },
-        'browser-ip', // Will be set by server from headers
-        typeof window !== 'undefined' ? navigator.userAgent : undefined
-      );
+      // Submit comment (IP and user agent are captured server-side from headers)
+      const response = await submitCommentAction({
+        article_id: articleId,
+        parent_comment_id: parentCommentId,
+        author_name: name,
+        author_email: email,
+        content,
+      });
 
       if (response.success) {
         setMessage({

@@ -19,10 +19,7 @@ export default function ReactionsDisplay({ comment, articleId }: ReactionsDispla
 
   const handleAddReaction = async (emoji: string) => {
     setIsLoading(true);
-    // Get user IP from browser (approximate)
-    const ip = 'browser-ip';
-
-    const result = await addReactionAction(comment.id, emoji, ip);
+    const result = await addReactionAction(comment.id, emoji);
 
     if (result.success) {
       // Update local reactions
@@ -40,9 +37,7 @@ export default function ReactionsDisplay({ comment, articleId }: ReactionsDispla
 
   const handleRemoveReaction = async (emoji: string) => {
     setIsLoading(true);
-    const ip = 'browser-ip';
-
-    const result = await removeReactionAction(comment.id, emoji, ip);
+    const result = await removeReactionAction(comment.id, emoji);
 
     if (result.success) {
       setReactions(

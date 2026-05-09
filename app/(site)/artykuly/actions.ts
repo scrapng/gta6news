@@ -4,6 +4,7 @@ import { getSupabaseAdmin } from '@/lib/supabase';
 import { createSlug } from '@/lib/utils';
 import { runAutomod, hashEmail, getAutomodConfig, getGravatarUrl } from '@/lib/automod';
 import { Comment, SubmitCommentInput } from '@/types';
+import { headers } from 'next/headers';
 
 export async function getArticleBySlugAction(slug: string) {
   try {
@@ -59,9 +60,16 @@ export async function getRelatedArticlesAction(category: string, slug: string, l
 
 // Comment Actions
 
-export async function submitCommentAction(input: SubmitCommentInput, ip: string, userAgent?: string) {
+export async function submitCommentAction(input: SubmitCommentInput) {
   try {
     const supabaseAdmin = getSupabaseAdmin();
+
+    // Get IP address from request headers
+    const headersList = await headers();
+    const ip = headersList.get('x-forwarded-for')?.split(',')[0].trim() ||
+               headersList.get('x-real-ip') ||
+               '0.0.0.0';
+    const userAgent = headersList.get('user-agent') || undefined;
 
     // Validate input
     if (!input.author_name?.trim() || input.author_name.length > 100) {
@@ -207,16 +215,22 @@ export async function getRepliesForCommentAction(parentId: string) {
   }
 }
 
-export async function addReactionAction(commentId: string, emoji: string, ip: string) {
+export async function addReactionAction(commentId: string, emoji: string) {
   try {
     // Validate emoji (1-10 chars)
     if (!emoji || emoji.length > 10) {
       return { success: false, error: 'Invalid emoji' };
     }
 
+    // Get IP from headers
+    const headersList = await headers();
+    const ip = headersList.get('x-forwarded-for')?.split(',')[0].trim() ||
+               headersList.get('x-real-ip') ||
+               '0.0.0.0';
+
     const supabaseAdmin = getSupabaseAdmin();
 
-    // Try to insert or update reaction
+    // Try to insert reaction
     const { error } = await supabaseAdmin
       .from('reactions')
       .insert([
@@ -245,8 +259,14 @@ export async function addReactionAction(commentId: string, emoji: string, ip: st
   }
 }
 
-export async function removeReactionAction(commentId: string, emoji: string, ip: string) {
+export async function removeReactionAction(commentId: string, emoji: string) {
   try {
+    // Get IP from headers
+    const headersList = await headers();
+    const ip = headersList.get('x-forwarded-for')?.split(',')[0].trim() ||
+               headersList.get('x-real-ip') ||
+               '0.0.0.0';
+
     const supabaseAdmin = getSupabaseAdmin();
 
     const { error } = await supabaseAdmin
