@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { PipelineLog, Article } from '@/types';
 import { formatDateFull } from '@/lib/utils';
-import { Play, RefreshCw, BarChart3, FileText, MessageSquare, Settings } from 'lucide-react';
+import { Play, RefreshCw, BarChart3, FileText, MessageSquare, Settings, Image as ImageIcon } from 'lucide-react';
 import { runPipelineAction, fetchAdminDataAction } from './actions';
 import AdminArticleActions from '@/components/AdminArticleActions';
 import AdminCommentsModeration from '@/components/admin/AdminCommentsModeration';
@@ -210,15 +211,45 @@ export default function AdminPage() {
                 {articles.map((article) => (
                   <div
                     key={article.id}
-                    className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-4 flex justify-between items-center gap-4"
+                    className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-4"
                   >
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-text-primary truncate">{article.title}</p>
-                      <p className="text-sm text-text-muted">
-                        {article.status} • {article.category}
-                      </p>
+                    <div className="flex gap-4 mb-3">
+                      {/* Article Cover Image */}
+                      {article.cover_image ? (
+                        <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden">
+                          <Image
+                            src={article.cover_image}
+                            alt={article.title}
+                            width={64}
+                            height={64}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-16 h-16 flex-shrink-0 rounded bg-bg-secondary flex items-center justify-center">
+                          <ImageIcon size={24} className="text-text-muted" />
+                        </div>
+                      )}
+                      {/* Article Info */}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-text-primary truncate">{article.title}</p>
+                        <p className="text-sm text-text-muted">
+                          {article.status} • {article.category}
+                        </p>
+                        {/* Image Attribution Info */}
+                        {article.cover_image && (
+                          <div className="text-xs text-text-secondary mt-1 space-y-0.5">
+                            {article.image_source && (
+                              <p>📷 Source: <span className="capitalize">{article.image_source}</span></p>
+                            )}
+                            {article.image_photographer_name && (
+                              <p>By: {article.image_photographer_name}</p>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex-shrink-0">
+                    <div className="flex justify-end">
                       <AdminArticleActions article={article} onRefresh={fetchData} />
                     </div>
                   </div>
@@ -236,15 +267,45 @@ export default function AdminPage() {
               {articles.map((article) => (
                 <div
                   key={article.id}
-                  className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-4 flex justify-between items-center gap-4"
+                  className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-4"
                 >
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-text-primary truncate">{article.title}</p>
-                    <p className="text-sm text-text-muted">
-                      {article.status} • {article.category}
-                    </p>
+                  <div className="flex gap-4 mb-3">
+                    {/* Article Cover Image */}
+                    {article.cover_image ? (
+                      <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden">
+                        <Image
+                          src={article.cover_image}
+                          alt={article.title}
+                          width={64}
+                          height={64}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-16 h-16 flex-shrink-0 rounded bg-bg-secondary flex items-center justify-center">
+                        <ImageIcon size={24} className="text-text-muted" />
+                      </div>
+                    )}
+                    {/* Article Info */}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-text-primary truncate">{article.title}</p>
+                      <p className="text-sm text-text-muted">
+                        {article.status} • {article.category}
+                      </p>
+                      {/* Image Attribution Info */}
+                      {article.cover_image && (
+                        <div className="text-xs text-text-secondary mt-1 space-y-0.5">
+                          {article.image_source && (
+                            <p>📷 Source: <span className="capitalize">{article.image_source}</span></p>
+                          )}
+                          {article.image_photographer_name && (
+                            <p>By: {article.image_photographer_name}</p>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex-shrink-0">
+                  <div className="flex justify-end">
                     <AdminArticleActions article={article} onRefresh={fetchData} />
                   </div>
                 </div>
