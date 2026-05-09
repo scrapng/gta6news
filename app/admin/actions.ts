@@ -1,11 +1,12 @@
 'use server';
 
 import { runPipeline } from '@/lib/pipeline';
+import { getSupabaseAdmin } from '@/lib/supabase';
 
 export async function runPipelineAction() {
   try {
     console.log('Starting pipeline from admin action...');
-    const articles = await runPipeline(1, true); // Generate 1 article, auto-publish
+    const articles = await runPipeline(1, true);
 
     console.log(`Pipeline completed: generated ${articles.length} articles`);
 
@@ -29,6 +30,96 @@ export async function runPipelineAction() {
       articles: [],
       error: errorMessage,
       message: null,
+    };
+  }
+}
+
+export async function fetchAdminDataAction() {
+  try {
+    const supabaseAdmin = getSupabaseAdmin();
+
+    // Fetch logs
+    const { data: logsData } = await supabaseAdmin
+      .from('pipeline_logs')
+      .select('*')
+      .order('run_at', { ascending: false })
+      .limit(20);
+
+    // Fetch articles
+    const { data: articlesData } = await supabaseAdmin
+      .from('articles')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    // Fetch stats
+    const { count: totalCount } = await supabaseAdmin
+      .from('articles')
+      .select('*', { count: 'exact', head: true });
+
+    const { count: publishedCount } = await supabaseAdmin
+      .from('articles')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'published');
+
+    const { count: draftCount } = await supabaseAdmin
+      .from('articles')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'draft');
+
+    return {
+      success: true,
+      logs: logsData || [],
+      articles: articlesData || [],
+      stats: {
+        totalArticles: totalCount || 0,
+        publishedArticles: publishedCount || 0,
+        draftArticles: draftCount || 0,
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching admin data:', error);
+    return {
+      success: false,
+      logs: [],
+      articles: [],
+      stats: {
+        totalArticles: 0,
+        publishedArticles: 0,
+        draftArticles: 0,
+      },
+      error: error instanceof Error ? error.message : 'Failed to fetch data',
+    };
+  }
+}
+
+export async function publishArticleAction(id: string) {
+  try {
+    const supabaseAdmin = getSupabaseAdmin();
+    await supabaseAdmin
+      .from('articles')
+      .update({ status: 'published', published_at: new Date().toISOString() })
+      .eq('id', id);
+
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to publish article',
+    };
+  }
+}
+
+export async function rejectArticleAction(id: string) {
+  try {
+    const supabaseAdmin = getSupabaseAdmin();
+    await supabaseAdmin.from('articles').update({ status: 'rejected' }).eq('id', id);
+
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to reject article',
     };
   }
 }

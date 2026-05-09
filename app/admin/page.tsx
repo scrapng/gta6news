@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { supabaseAdmin } from '@/lib/supabase';
 import { PipelineLog, Article } from '@/types';
 import { formatDateFull } from '@/lib/utils';
 import { Play, RefreshCw, Check, X } from 'lucide-react';
-import { runPipelineAction } from './actions';
+import { runPipelineAction, fetchAdminDataAction, publishArticleAction, rejectArticleAction } from './actions';
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,30 +31,12 @@ export default function AdminPage() {
 
   const fetchData = async () => {
     try {
-      // Fetch logs
-      const { data: logsData } = await supabaseAdmin.from('pipeline_logs').select('*').order('run_at', { ascending: false }).limit(20);
-      if (logsData) setLogs(logsData);
-
-      // Fetch articles
-      const { data: articlesData } = await supabaseAdmin.from('articles').select('*').order('created_at', { ascending: false }).limit(20);
-      if (articlesData) setArticles(articlesData);
-
-      // Fetch stats
-      const { count: totalCount } = await supabaseAdmin.from('articles').select('*', { count: 'exact', head: true });
-      const { count: publishedCount } = await supabaseAdmin
-        .from('articles')
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'published');
-      const { count: draftCount } = await supabaseAdmin
-        .from('articles')
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'draft');
-
-      setStats({
-        totalArticles: totalCount || 0,
-        publishedArticles: publishedCount || 0,
-        draftArticles: draftCount || 0,
-      });
+      const result = await fetchAdminDataAction();
+      if (result.success) {
+        setLogs(result.logs);
+        setArticles(result.articles);
+        setStats(result.stats);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -80,8 +61,12 @@ export default function AdminPage() {
 
   const publishArticle = async (id: string) => {
     try {
-      await supabaseAdmin.from('articles').update({ status: 'published', published_at: new Date().toISOString() }).eq('id', id);
-      fetchData();
+      const result = await publishArticleAction(id);
+      if (result.success) {
+        fetchData();
+      } else {
+        alert('Error publishing article');
+      }
     } catch (error) {
       alert('Error publishing article');
     }
@@ -89,8 +74,12 @@ export default function AdminPage() {
 
   const rejectArticle = async (id: string) => {
     try {
-      await supabaseAdmin.from('articles').update({ status: 'rejected' }).eq('id', id);
-      fetchData();
+      const result = await rejectArticleAction(id);
+      if (result.success) {
+        fetchData();
+      } else {
+        alert('Error rejecting article');
+      }
     } catch (error) {
       alert('Error rejecting article');
     }

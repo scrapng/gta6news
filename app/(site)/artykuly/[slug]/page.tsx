@@ -19,22 +19,38 @@ interface PageProps {
 
 async function getArticle(slug: string) {
   try {
-    const { data } = await supabase
+    if (!supabase) {
+      console.error('Supabase not initialized');
+      return null;
+    }
+
+    const { data, error } = await supabase
       .from('articles')
       .select('*')
       .eq('slug', slug)
       .eq('status', 'published')
       .single();
 
+    if (error) {
+      console.error('Error fetching article:', error.message);
+      return null;
+    }
+
     return data;
-  } catch {
+  } catch (error) {
+    console.error('Error in getArticle:', error);
     return null;
   }
 }
 
 async function getRelatedArticles(category: string, slug: string, limit: number = 3) {
   try {
-    const { data } = await supabase
+    if (!supabase) {
+      console.error('Supabase not initialized');
+      return [];
+    }
+
+    const { data, error } = await supabase
       .from('articles')
       .select('*')
       .eq('category', category)
@@ -43,9 +59,14 @@ async function getRelatedArticles(category: string, slug: string, limit: number 
       .order('published_at', { ascending: false })
       .limit(limit);
 
+    if (error) {
+      console.error('Error fetching related articles:', error.message);
+      return [];
+    }
+
     return data || [];
   } catch (error) {
-    console.error('Error fetching related articles:', error);
+    console.error('Error in getRelatedArticles:', error);
     return [];
   }
 }

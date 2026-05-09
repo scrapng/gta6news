@@ -13,3 +13,11 @@ export const supabase = supabaseUrl && supabaseAnonKey
 export const supabaseAdmin = supabaseUrl && supabaseServiceRoleKey
   ? createClient(supabaseUrl, supabaseServiceRoleKey)
   : null as any;
+
+// Function to get Supabase admin client (for server actions)
+export function getSupabaseAdmin() {
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    throw new Error('Supabase credentials not configured');
+  }
+  return createClient(supabaseUrl, supabaseServiceRoleKey);
+}
