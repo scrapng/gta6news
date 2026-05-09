@@ -1,16 +1,18 @@
 'use server';
 
 import { getSupabaseAdmin } from '@/lib/supabase';
+import { createSlug } from '@/lib/utils';
 
 export async function getArticleBySlugAction(slug: string) {
   try {
-    console.log(`[Server Action] Fetching article with slug: ${slug}`);
+    const normalizedSlug = createSlug(slug);
+    console.log(`[Server Action] Fetching article with slug: ${slug} (normalized: ${normalizedSlug})`);
     const supabaseAdmin = getSupabaseAdmin();
 
     const { data, error } = await supabaseAdmin
       .from('articles')
       .select('*')
-      .eq('slug', slug)
+      .eq('slug', normalizedSlug)
       .eq('status', 'published')
       .single();
 
@@ -29,6 +31,7 @@ export async function getArticleBySlugAction(slug: string) {
 
 export async function getRelatedArticlesAction(category: string, slug: string, limit: number = 3) {
   try {
+    const normalizedSlug = createSlug(slug);
     const supabaseAdmin = getSupabaseAdmin();
 
     const { data, error } = await supabaseAdmin
@@ -36,7 +39,7 @@ export async function getRelatedArticlesAction(category: string, slug: string, l
       .select('*')
       .eq('category', category)
       .eq('status', 'published')
-      .neq('slug', slug)
+      .neq('slug', normalizedSlug)
       .order('published_at', { ascending: false })
       .limit(limit);
 
