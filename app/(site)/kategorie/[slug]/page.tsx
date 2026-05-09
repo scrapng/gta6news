@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
 import ArticleGrid from '@/components/ArticleGrid';
+import ImageCredit from '@/components/ImageCredit';
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 
@@ -81,9 +84,42 @@ export default async function CategoryPage({ params }: PageProps) {
         </div>
       </section>
 
+      {/* Featured Article */}
+      {articles && articles.length > 0 && articles[0].cover_image && (
+        <section className="w-full py-8 md:py-12 border-b border-accent-neon-pink/15">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl font-display font-bold mb-6 text-accent-neon-pink">POLECANY ARTYKUŁ</h2>
+            <Link href={`/artykuly/${articles[0].slug}`}>
+              <div className="group cursor-pointer">
+                <div className="relative w-full h-64 md:h-80 overflow-hidden rounded-lg mb-4">
+                  <Image
+                    src={articles[0].cover_image}
+                    alt={articles[0].title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary/80" />
+                  <h3 className="absolute bottom-4 left-4 right-4 text-2xl md:text-3xl font-display font-bold text-text-primary group-hover:text-accent-neon-pink transition-colors duration-300 line-clamp-2">
+                    {articles[0].title}
+                  </h3>
+                </div>
+                <ImageCredit
+                  photographerName={articles[0].image_photographer_name}
+                  photographerUrl={articles[0].image_photographer_url}
+                  imageSourceUrl={articles[0].image_source_url}
+                  imageSource={articles[0].image_source}
+                  variant="article"
+                />
+              </div>
+            </Link>
+          </div>
+        </section>
+      )}
+
       {/* Articles Grid */}
       {articles && articles.length > 0 ? (
-        <ArticleGrid articles={articles} />
+        <ArticleGrid articles={articles.slice(articles[0].cover_image ? 1 : 0)} />
       ) : (
         <div className="w-full py-20 text-center">
           <p className="text-text-secondary text-lg">
