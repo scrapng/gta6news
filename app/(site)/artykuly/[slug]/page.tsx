@@ -5,9 +5,10 @@ import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { formatDate, calculateReadingTime } from '@/lib/utils';
-import { ArrowLeft, Share2, Calendar, Clock } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import ArticleCard from '@/components/ArticleCard';
 import { getArticleBySlugAction, getRelatedArticlesAction } from '../actions';
+import ArticleShareButtons from '@/components/ArticleShareButtons';
 
 export const dynamic = 'force-dynamic';
 
@@ -115,28 +116,7 @@ export default async function ArticlePage({ params }: PageProps) {
         </p>
 
         {/* Share Buttons */}
-        <div className="flex gap-3 mb-12">
-          <button
-            onClick={() => {
-              const text = `${article.title} - GTA6News`;
-              const url = window.location.href;
-              navigator.share?.({ title: text, url });
-            }}
-            className="inline-flex items-center gap-2 px-4 py-2 border border-accent-neon-pink/30 hover:border-accent-neon-pink text-accent-neon-pink hover:text-accent-neon-cyan rounded-lg transition-all"
-          >
-            <Share2 size={16} />
-            Udostępnij
-          </button>
-          <button
-            onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
-              alert('Link skopiowany do schowka!');
-            }}
-            className="inline-flex items-center gap-2 px-4 py-2 border border-accent-neon-pink/30 hover:border-accent-neon-pink text-accent-neon-pink hover:text-accent-neon-cyan rounded-lg transition-all"
-          >
-            Kopiuj link
-          </button>
-        </div>
+        <ArticleShareButtons title={article.title} />
 
         {/* Article Content */}
         <div className="prose prose-invert max-w-none mb-16">
