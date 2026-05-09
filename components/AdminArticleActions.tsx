@@ -80,59 +80,59 @@ export default function AdminArticleActions({ article, onRefresh }: AdminArticle
 
   if (isEditing) {
     return (
-      <div className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-4 space-y-4 mb-4">
-        <h4 className="font-bold text-accent-neon-pink">Edit Article</h4>
+      <div className="bg-gradient-to-br from-bg-card/60 to-bg-card/40 border border-accent-neon-magenta/30 rounded-xl p-6 space-y-5 mb-4 shadow-lg shadow-accent-neon-magenta/10">
+        <h4 className="font-display font-bold text-xl bg-gradient-to-r from-accent-neon-magenta to-accent-neon-cyan bg-clip-text text-transparent">✏️ Edit Article</h4>
 
         <div>
-          <label className="text-sm text-text-secondary block mb-2">Title</label>
+          <label className="text-sm font-semibold text-text-secondary block mb-3">Title</label>
           <input
             type="text"
             value={editData.title}
             onChange={(e) => setEditData({ ...editData, title: e.target.value })}
-            className="w-full px-3 py-2 bg-bg-secondary border border-accent-neon-pink/30 rounded text-text-primary"
+            className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary focus:border-accent-neon-magenta focus:outline-none transition-all"
           />
         </div>
 
         <div>
-          <label className="text-sm text-text-secondary block mb-2">Excerpt</label>
+          <label className="text-sm font-semibold text-text-secondary block mb-3">Excerpt</label>
           <textarea
             value={editData.excerpt}
             onChange={(e) => setEditData({ ...editData, excerpt: e.target.value })}
             rows={3}
-            className="w-full px-3 py-2 bg-bg-secondary border border-accent-neon-pink/30 rounded text-text-primary"
+            className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary focus:border-accent-neon-magenta focus:outline-none transition-all resize-none"
           />
         </div>
 
         <div>
-          <label className="text-sm text-text-secondary block mb-2">SEO Title</label>
+          <label className="text-sm font-semibold text-text-secondary block mb-3">SEO Title</label>
           <input
             type="text"
             value={editData.seo_title}
             onChange={(e) => setEditData({ ...editData, seo_title: e.target.value })}
-            className="w-full px-3 py-2 bg-bg-secondary border border-accent-neon-pink/30 rounded text-text-primary"
+            className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary focus:border-accent-neon-magenta focus:outline-none transition-all"
           />
         </div>
 
         <div>
-          <label className="text-sm text-text-secondary block mb-2">SEO Description</label>
+          <label className="text-sm font-semibold text-text-secondary block mb-3">SEO Description</label>
           <textarea
             value={editData.seo_description}
             onChange={(e) => setEditData({ ...editData, seo_description: e.target.value })}
             rows={2}
-            className="w-full px-3 py-2 bg-bg-secondary border border-accent-neon-pink/30 rounded text-text-primary"
+            className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary focus:border-accent-neon-magenta focus:outline-none transition-all resize-none"
           />
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-3 pt-3">
           <button
             onClick={handleSaveEdit}
-            className="flex-1 px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded transition-all"
+            className="flex-1 px-4 py-3 bg-gradient-to-r from-accent-neon-lime/20 to-green-500/20 border border-accent-neon-lime/40 hover:border-accent-neon-lime text-accent-neon-lime hover:shadow-glow-cyan font-bold rounded-lg transition-all"
           >
-            Save Changes
+            ✓ Save Changes
           </button>
           <button
             onClick={() => setIsEditing(false)}
-            className="flex-1 px-3 py-2 bg-bg-secondary hover:bg-bg-primary border border-accent-neon-pink/30 text-text-primary rounded transition-all"
+            className="flex-1 px-4 py-3 bg-bg-secondary/50 hover:bg-bg-secondary border border-accent-neon-magenta/30 hover:border-accent-neon-magenta text-text-primary font-bold rounded-lg transition-all"
           >
             Cancel
           </button>
@@ -142,52 +142,52 @@ export default function AdminArticleActions({ article, onRefresh }: AdminArticle
   }
 
   return (
-    <div className="flex gap-2 flex-wrap">
+    <div className="flex gap-3 flex-wrap">
       <button
         onClick={() => setIsEditing(true)}
-        className="p-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-lg transition-all"
+        className="group p-2.5 bg-accent-neon-cyan/20 hover:bg-accent-neon-cyan/30 text-accent-neon-cyan rounded-lg transition-all border border-accent-neon-cyan/30 hover:border-accent-neon-cyan hover:shadow-glow-cyan"
         title="Edit"
       >
-        <Edit size={18} />
+        <Edit size={20} className="group-hover:scale-110 transition-transform" />
       </button>
 
       {article.status === 'draft' && (
         <button
           onClick={handlePublish}
-          className="p-2 bg-green-600/20 hover:bg-green-600/30 text-green-400 rounded-lg transition-all"
+          className="group p-2.5 bg-accent-neon-lime/20 hover:bg-accent-neon-lime/30 text-accent-neon-lime rounded-lg transition-all border border-accent-neon-lime/30 hover:border-accent-neon-lime hover:shadow-glow-cyan"
           title="Publish"
         >
-          <Check size={18} />
+          <Check size={20} className="group-hover:scale-110 transition-transform" />
         </button>
       )}
 
       {article.status === 'published' && (
         <button
           onClick={handleHide}
-          className="p-2 bg-yellow-600/20 hover:bg-yellow-600/30 text-yellow-400 rounded-lg transition-all"
+          className="group p-2.5 bg-accent-neon-orange/20 hover:bg-accent-neon-orange/30 text-accent-neon-orange rounded-lg transition-all border border-accent-neon-orange/30 hover:border-accent-neon-orange hover:shadow-glow-cyan"
           title="Hide (make draft)"
         >
-          <EyeOff size={18} />
+          <EyeOff size={20} className="group-hover:scale-110 transition-transform" />
         </button>
       )}
 
       {article.status === 'draft' && (
         <button
           onClick={handleReject}
-          className="p-2 bg-red-600/20 hover:bg-red-600/30 text-red-400 rounded-lg transition-all"
+          className="group p-2.5 bg-accent-neon-pink/20 hover:bg-accent-neon-pink/30 text-accent-neon-pink rounded-lg transition-all border border-accent-neon-pink/30 hover:border-accent-neon-pink hover:shadow-glow-magenta"
           title="Reject"
         >
-          <X size={18} />
+          <X size={20} className="group-hover:scale-110 transition-transform" />
         </button>
       )}
 
       <button
         onClick={handleDelete}
         disabled={isDeleting}
-        className="p-2 bg-red-700/20 hover:bg-red-700/30 text-red-500 rounded-lg transition-all disabled:opacity-50"
+        className="group p-2.5 bg-red-600/20 hover:bg-red-600/30 text-red-500 rounded-lg transition-all border border-red-600/30 hover:border-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
         title="Delete permanently"
       >
-        <Trash2 size={18} />
+        <Trash2 size={20} className="group-hover:scale-110 transition-transform" />
       </button>
     </div>
   );
