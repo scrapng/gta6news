@@ -8,15 +8,15 @@
   --bg-card: #151B2F;
   --bg-dark: #0A0E27;
 
-  /* Miami Neon Accents */
-  --accent-magenta: #FF006E;
-  --accent-magenta-light: #FF1493;
-  --accent-pink: #FF2D78;
-  --accent-cyan: #00F5FF;
-  --accent-orange: #FF6B35;
-  --accent-lime: #39FF14;
-  --accent-blue: #0088FF;
-  --accent-purple: #9D00FF;
+  /* Miami Pastel Accents */
+  --accent-magenta: #FF9FBE;
+  --accent-magenta-light: #FFC8DB;
+  --accent-pink: #FFB8D1;
+  --accent-cyan: #7FD8E8;
+  --accent-orange: #FFB77D;
+  --accent-lime: #C8E8AA;
+  --accent-blue: #6BB3D8;
+  --accent-purple: #C8A8E8;
 
   /* Text Colors */
   --text-primary: #FFFFFF;
@@ -24,23 +24,23 @@
   --text-muted: #6B7280;
 
   /* Status Colors */
-  --status-success: #39FF14;
-  --status-error: #FF006E;
-  --status-warning: #FF6B35;
-  --status-info: #00F5FF;
+  --status-success: #C8E8AA;
+  --status-error: #FF9FBE;
+  --status-warning: #FFB77D;
+  --status-info: #7FD8E8;
 
   /* Borders */
-  --border-light: rgba(255, 0, 110, 0.1);
-  --border-medium: rgba(255, 0, 110, 0.2);
-  --border-strong: rgba(255, 0, 110, 0.3);
+  --border-light: rgba(255, 159, 190, 0.1);
+  --border-medium: rgba(255, 159, 190, 0.2);
+  --border-strong: rgba(255, 159, 190, 0.3);
 
   /* Glows */
-  --glow-magenta: 0 0 30px rgba(255, 0, 110, 0.6);
-  --glow-cyan: 0 0 30px rgba(0, 245, 255, 0.6);
-  --glow-orange: 0 0 30px rgba(255, 107, 53, 0.6);
-  --glow-lime: 0 0 30px rgba(57, 255, 20, 0.4);
-  --neon-magenta: 0 0 20px rgba(255, 0, 110, 0.8), 0 0 40px rgba(255, 0, 110, 0.4);
-  --neon-cyan: 0 0 20px rgba(0, 245, 255, 0.8), 0 0 40px rgba(0, 245, 255, 0.4);
+  --glow-magenta: 0 0 30px rgba(255, 159, 190, 0.6);
+  --glow-cyan: 0 0 30px rgba(127, 216, 232, 0.6);
+  --glow-orange: 0 0 30px rgba(255, 183, 125, 0.6);
+  --glow-lime: 0 0 30px rgba(200, 232, 170, 0.4);
+  --neon-magenta: 0 0 20px rgba(255, 159, 190, 0.8), 0 0 40px rgba(255, 159, 190, 0.4);
+  --neon-cyan: 0 0 20px rgba(127, 216, 232, 0.8), 0 0 40px rgba(127, 216, 232, 0.4);
 }
 
 * {
@@ -221,26 +221,26 @@ pre {
 .glass-effect {
   backdrop-filter: blur(12px);
   background-color: rgba(10, 14, 39, 0.7);
-  border: 1px solid rgba(255, 0, 110, 0.1);
+  border: 1px solid rgba(255, 159, 190, 0.1);
 }
 
 .glass-effect-stronger {
   backdrop-filter: blur(16px);
   background-color: rgba(10, 14, 39, 0.85);
-  border: 1px solid rgba(255, 0, 110, 0.15);
+  border: 1px solid rgba(255, 159, 190, 0.15);
 }
 
 /* Gradient Backgrounds */
 .bg-gradient-miami {
-  background: linear-gradient(135deg, #FF006E 0%, #FF6B35 50%, #00F5FF 100%);
+  background: linear-gradient(135deg, #FF9FBE 0%, #FFB77D 50%, #7FD8E8 100%);
 }
 
 .bg-gradient-magenta-cyan {
-  background: linear-gradient(90deg, #FF006E 0%, #00F5FF 100%);
+  background: linear-gradient(90deg, #FF9FBE 0%, #7FD8E8 100%);
 }
 
 .bg-gradient-orange-magenta {
-  background: linear-gradient(135deg, #FF6B35 0%, #FF006E 100%);
+  background: linear-gradient(135deg, #FFB77D 0%, #FF9FBE 100%);
 }
 
 .bg-gradient-dark-overlay {
@@ -248,7 +248,7 @@ pre {
 }
 
 .bg-gradient-card {
-  background: linear-gradient(135deg, rgba(255, 0, 110, 0.1) 0%, rgba(0, 245, 255, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(255, 159, 190, 0.1) 0%, rgba(127, 216, 232, 0.05) 100%);
 }
 
 /* Card Effects */
@@ -306,7 +306,7 @@ pre {
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 0, 110, 0.1);
+  background: rgba(255, 159, 190, 0.1);
   box-shadow: var(--glow-magenta);
 }
 
