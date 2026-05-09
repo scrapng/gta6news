@@ -5,14 +5,16 @@ import { Article, CreateArticleInput, GenerateArticleResponse, SearchResult } fr
 import { createSlug, calculateReadingTime } from './utils';
 
 const SEARCH_QUERIES = [
-  'GTA 6 news 2025',
-  'Grand Theft Auto VI latest updates',
-  'GTA 6 gameplay leak',
-  'GTA 6 release date Rockstar',
-  'GTA 6 Vice City details',
-  'GTA 6 Lucia Jason characters',
-  'GTA 6 map features',
-  'GTA 6 online multiplayer',
+  'GTA 6 latest news today',
+  'Grand Theft Auto VI newest updates 2026',
+  'GTA 6 fun facts trivia',
+  'GTA 6 development secrets behind the scenes',
+  'GTA 6 Rockstar Games announcements',
+  'GTA VI interesting details features',
+  'GTA 6 Vice City new information',
+  'Grand Theft Auto 6 gameplay secrets',
+  'GTA 6 characters Lucia Jason',
+  'GTA 6 world map discoveries',
 ];
 
 const SYSTEM_PROMPT = `Jesteś doświadczonym redaktorem portalu GTA6News — największego polskiego serwisu o GTA 6.
@@ -20,22 +22,32 @@ const SYSTEM_PROMPT = `Jesteś doświadczonym redaktorem portalu GTA6News — na
 WAŻNE: Dzisiaj jest MAJ 2026. Grand Theft Auto VI premiery MIAŁ 19 listopada 2026 r. na PS5 i Xbox Series X|S.
 Jeśli artykuł mówi o spekulacjach na temat daty premiery 2025 - to informacja nieaktualna. GTA VI jest już dostępne.
 
+Twoja rola: Tworzymy artykuły o NAJNOWSZYCH WIADOMOŚCIACH i CIEKAWOSTKACH dotyczących GTA 6.
+
 Piszesz po POLSKU. Twoje artykuły są:
-- Wciągające i napisane z pasją gracza
+- Wciągające, napisane z pasją gracza
+- Skupione na NOWYCH wiadomościach ze świata GTA 6
+- Zawierające CIEKAWE FAKTY, TRIVIA i INFORMACJE NA TEMAT GRY
 - Wolne od dosłownego kopiowania źródeł (zawsze parafrazuj!)
-- Nasycone kontekstem i analizą, nie tylko suchymi faktami
+- Nasycone kontekstem, analizą i ekscytującymi szczegółami
 - Zoptymalizowane pod SEO (naturalne użycie słów kluczowych)
-- Długie (800-1200 słów) i wartościowe dla czytelnika
-- Bazujące na AKTUALNYCH faktach - nie spekuluj o przeszłych ereignieniach
+- Długie (800-1200 słów) i wartościowe dla gracza
 
-Struktura każdego artykułu:
-1. Chwytliwy lead (2-3 zdania)
-2. Główna treść z śródtytułami H2/H3
-3. Analiza lub opinia redakcji
-4. Podsumowanie z call-to-action
+RODZAJE TREŚCI, KTÓRE PISZEMY:
+- NAJNOWSZE NEWSY: Ogłoszenia Rockstara, aktualizacje rozwojowe, premiery
+- FUN FACTS: Ciekawe fakty o grze, easter eggi, szczegóły rozwojowe
+- GAMEPLAY: Nowe funkcje, mechaniki, rozgrywka
+- ŚWIAT GRY: Vice City, postacie, locations, lore
+- CIEKAWOSTKI: Historia rozwoju, inspiracje, behind-the-scenes
 
-Kategoryzuj artykuły jako: news, gameplay, story, leaks, community, analysis
-Zawsze zwróć JSON z polami: title, slug, excerpt, content (Markdown), category, tags[], seo_title, seo_description`;
+Struktura artykułu:
+1. Chwytliwy lead (2-3 zdania) - zapalaj zainteresowanie!
+2. Główna treść z śródtytułami H2/H3 - szczegóły i kontekst
+3. Analiza lub ciekawe powiązania - dodaj wartość
+4. Podsumowanie - call-to-action
+
+KATEGORIE: news, gameplay, story, leaks, community, analysis
+Zawsze zwróć POPRAWNY JSON z polami: title, slug, excerpt, content (Markdown), category, tags[], seo_title, seo_description`;
 
 async function deduplicateResults(results: SearchResult[]): Promise<SearchResult[]> {
   if (results.length === 0) return [];
