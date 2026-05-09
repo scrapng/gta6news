@@ -3,14 +3,19 @@
 import { useState, useEffect } from 'react';
 import { PipelineLog, Article } from '@/types';
 import { formatDateFull } from '@/lib/utils';
-import { Play, RefreshCw } from 'lucide-react';
+import { Play, RefreshCw, BarChart3, FileText, MessageSquare, Settings } from 'lucide-react';
 import { runPipelineAction, fetchAdminDataAction } from './actions';
 import AdminArticleActions from '@/components/AdminArticleActions';
+import AdminCommentsModeration from '@/components/admin/AdminCommentsModeration';
+import AdminAutomodSettings from '@/components/admin/AdminAutomodSettings';
+
+type AdminTab = 'dashboard' | 'articles' | 'comments' | 'automod';
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<AdminTab>('dashboard');
   const [logs, setLogs] = useState<PipelineLog[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
   const [stats, setStats] = useState({
@@ -89,8 +94,62 @@ export default function AdminPage() {
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-display font-bold mb-8 text-accent-neon-pink">Admin Dashboard</h1>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {/* Tab Navigation */}
+        <div className="flex gap-2 border-b border-accent-neon-pink/20 overflow-x-auto mb-8">
+          <button
+            onClick={() => setActiveTab('dashboard')}
+            className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-colors whitespace-nowrap ${
+              activeTab === 'dashboard'
+                ? 'border-accent-neon-pink text-accent-neon-pink'
+                : 'border-transparent text-text-muted hover:text-text-primary'
+            }`}
+          >
+            <BarChart3 size={18} />
+            Dashboard
+          </button>
+
+          <button
+            onClick={() => setActiveTab('articles')}
+            className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-colors whitespace-nowrap ${
+              activeTab === 'articles'
+                ? 'border-accent-neon-pink text-accent-neon-pink'
+                : 'border-transparent text-text-muted hover:text-text-primary'
+            }`}
+          >
+            <FileText size={18} />
+            Articles
+          </button>
+
+          <button
+            onClick={() => setActiveTab('comments')}
+            className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-colors whitespace-nowrap ${
+              activeTab === 'comments'
+                ? 'border-accent-neon-pink text-accent-neon-pink'
+                : 'border-transparent text-text-muted hover:text-text-primary'
+            }`}
+          >
+            <MessageSquare size={18} />
+            Comments
+          </button>
+
+          <button
+            onClick={() => setActiveTab('automod')}
+            className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-colors whitespace-nowrap ${
+              activeTab === 'automod'
+                ? 'border-accent-neon-pink text-accent-neon-pink'
+                : 'border-transparent text-text-muted hover:text-text-primary'
+            }`}
+          >
+            <Settings size={18} />
+            Automod Settings
+          </button>
+        </div>
+
+        {/* Dashboard Tab */}
+        {activeTab === 'dashboard' && (
+          <>
+            {/* Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-6">
             <p className="text-text-muted text-sm mb-2">Total Articles</p>
             <p className="text-3xl font-display font-bold text-accent-neon-pink">{stats.totalArticles}</p>
@@ -144,28 +203,65 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Recent Articles */}
-        <div>
-          <h2 className="text-2xl font-display font-bold mb-4 text-text-primary">Recent Articles</h2>
-          <div className="space-y-3">
-            {articles.map((article) => (
-              <div
-                key={article.id}
-                className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-4 flex justify-between items-center gap-4"
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-text-primary truncate">{article.title}</p>
-                  <p className="text-sm text-text-muted">
-                    {article.status} • {article.category}
-                  </p>
-                </div>
-                <div className="flex-shrink-0">
-                  <AdminArticleActions article={article} onRefresh={fetchData} />
-                </div>
+            {/* Recent Articles */}
+            <div>
+              <h2 className="text-2xl font-display font-bold mb-4 text-text-primary">Recent Articles</h2>
+              <div className="space-y-3">
+                {articles.map((article) => (
+                  <div
+                    key={article.id}
+                    className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-4 flex justify-between items-center gap-4"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-text-primary truncate">{article.title}</p>
+                      <p className="text-sm text-text-muted">
+                        {article.status} • {article.category}
+                      </p>
+                    </div>
+                    <div className="flex-shrink-0">
+                      <AdminArticleActions article={article} onRefresh={fetchData} />
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+          </>
+        )}
+
+        {/* Articles Tab */}
+        {activeTab === 'articles' && (
+          <div>
+            <h2 className="text-2xl font-display font-bold mb-4 text-text-primary">All Articles</h2>
+            <div className="space-y-3">
+              {articles.map((article) => (
+                <div
+                  key={article.id}
+                  className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-4 flex justify-between items-center gap-4"
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-text-primary truncate">{article.title}</p>
+                    <p className="text-sm text-text-muted">
+                      {article.status} • {article.category}
+                    </p>
+                  </div>
+                  <div className="flex-shrink-0">
+                    <AdminArticleActions article={article} onRefresh={fetchData} />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Comments Tab */}
+        {activeTab === 'comments' && (
+          <AdminCommentsModeration />
+        )}
+
+        {/* Automod Settings Tab */}
+        {activeTab === 'automod' && (
+          <AdminAutomodSettings />
+        )}
       </div>
     </div>
   );
