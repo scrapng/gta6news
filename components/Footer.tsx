@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="w-full bg-bg-secondary border-t border-accent-neon-pink/15 mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
           {/* Brand */}
           <div>
             <div className="text-2xl font-display font-bold text-accent-neon-pink mb-4">
@@ -50,6 +50,19 @@ const Footer = () => {
               </li>
               <li>
                 <Link href="/kategorie/analysis">Analiza</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Information */}
+          <div>
+            <h4 className="font-display font-bold mb-4 text-text-primary">Informacje</h4>
+            <ul className="space-y-2 text-sm text-text-secondary hover:text-accent-neon-pink transition-colors">
+              <li>
+                <Link href="/o-nas">O nas</Link>
+              </li>
+              <li>
+                <Link href="/o-nas#atrybuacja-zdjęć">Atrybuacja zdjęć</Link>
               </li>
             </ul>
           </div>
