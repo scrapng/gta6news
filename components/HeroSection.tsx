@@ -57,13 +57,13 @@ const HeroSection = () => {
           }`}
         >
           <span className="px-5 py-2.5 rounded-full bg-gradient-to-r from-accent-neon-magenta/15 to-accent-neon-cyan/15 border border-accent-neon-magenta/40 text-accent-neon-magenta text-xs font-semibold mono uppercase tracking-widest shadow-lg shadow-accent-neon-magenta/20">
-            ▶ Gra już dostępna • PS5 & Xbox Series X|S
+            🎮 Wkrótce dostępna • PS5 & Xbox Series X|S
           </span>
         </div>
 
         {/* Main Title - Spectacular */}
         <h1
-          className={`text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-display font-black mb-6 leading-none transition-all duration-1000 ${
+          className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black mb-8 leading-tight transition-all duration-1000 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
           }`}
         >
@@ -77,14 +77,9 @@ const HeroSection = () => {
           </span>
         </h1>
 
-        {/* Decorative line */}
-        <div className={`w-32 h-1 bg-gradient-magenta-cyan mx-auto mb-12 transition-all duration-1000 delay-200 ${
-          isLoaded ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
-        }`} />
-
         {/* Subtitle - Premium typography */}
         <p
-          className={`text-xl sm:text-2xl md:text-3xl text-text-primary mb-6 max-w-3xl mx-auto leading-relaxed font-medium transition-all duration-1000 delay-200 ${
+          className={`text-lg sm:text-xl md:text-2xl text-text-primary mb-4 max-w-3xl mx-auto leading-relaxed font-medium transition-all duration-1000 delay-200 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
           }`}
         >
@@ -92,7 +87,7 @@ const HeroSection = () => {
         </p>
 
         <p
-          className={`text-sm md:text-base text-text-secondary mb-16 transition-all duration-1000 delay-300 ${
+          className={`text-xs md:text-sm text-text-secondary mb-12 transition-all duration-1000 delay-300 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
           }`}
         >
