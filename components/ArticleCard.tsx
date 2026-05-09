@@ -11,13 +11,13 @@ interface ArticleCardProps {
   article: Article;
 }
 
-const categoryColors: Record<string, { bg: string; text: string; border: string }> = {
-  news: { bg: 'bg-blue-500/20', text: 'text-blue-400', border: 'border-blue-500/30' },
-  gameplay: { bg: 'bg-green-500/20', text: 'text-green-400', border: 'border-green-500/30' },
-  story: { bg: 'bg-purple-500/20', text: 'text-purple-400', border: 'border-purple-500/30' },
-  leaks: { bg: 'bg-red-500/20', text: 'text-red-400', border: 'border-red-500/30' },
-  community: { bg: 'bg-yellow-500/20', text: 'text-yellow-400', border: 'border-yellow-500/30' },
-  analysis: { bg: 'bg-cyan-500/20', text: 'text-cyan-400', border: 'border-cyan-500/30' },
+const categoryColors: Record<string, { bg: string; text: string; border: string; glow: string }> = {
+  news: { bg: 'bg-accent-ocean-blue/10', text: 'text-accent-ocean-blue', border: 'border-accent-ocean-blue/30', glow: 'neon-glow-cyan' },
+  gameplay: { bg: 'bg-accent-neon-lime/10', text: 'text-accent-neon-lime', border: 'border-accent-neon-lime/30', glow: 'neon-glow-lime' },
+  story: { bg: 'bg-accent-purple-haze/10', text: 'text-accent-purple-haze', border: 'border-accent-purple-haze/30', glow: 'neon-glow-cyan' },
+  leaks: { bg: 'bg-accent-neon-magenta/10', text: 'text-accent-neon-magenta', border: 'border-accent-neon-magenta/30', glow: 'neon-glow-magenta' },
+  community: { bg: 'bg-accent-neon-orange/10', text: 'text-accent-neon-orange', border: 'border-accent-neon-orange/30', glow: 'neon-glow-orange' },
+  analysis: { bg: 'bg-accent-neon-cyan/10', text: 'text-accent-neon-cyan', border: 'border-accent-neon-cyan/30', glow: 'neon-glow-cyan' },
 };
 
 const ArticleCard = ({ article }: ArticleCardProps) => {
@@ -25,25 +25,28 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
 
   return (
     <Link href={`/artykuly/${article.slug}`}>
-      <div className="h-full neon-border rounded-lg overflow-hidden bg-bg-card/40 hover:bg-bg-card/80 transition-all duration-300 group cursor-pointer">
-        {/* Image */}
-        <div className="relative h-48 bg-gradient-to-b from-bg-secondary to-bg-primary overflow-hidden">
+      <div className="h-full rounded-lg overflow-hidden bg-bg-card neon-border transition-all duration-300 group cursor-pointer card-hover-strong">
+        {/* Image container */}
+        <div className="relative h-48 md:h-56 bg-gradient-dark overflow-hidden">
           {article.cover_image ? (
             <Image
               src={article.cover_image}
               alt={article.title}
               fill
-              className="object-cover group-hover:scale-110 transition-transform duration-300"
+              className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-neon opacity-20" />
+            <div className="w-full h-full bg-gradient-miami opacity-20" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-card/80" />
 
-          {/* Category Badge */}
-          <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-mono font-semibold ${categoryColor.bg} ${categoryColor.text} border ${categoryColor.border}`}>
-            {article.category.toUpperCase()}
+          {/* Gradient overlay with magenta tint */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-card" />
+          <div className="absolute inset-0 bg-accent-neon-magenta/5 group-hover:bg-accent-neon-magenta/10 transition-colors duration-300" />
+
+          {/* Category Badge - Enhanced */}
+          <div className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${categoryColor.bg} ${categoryColor.text} border ${categoryColor.border} transition-all duration-300 group-hover:${categoryColor.glow}`}>
+            {article.category}
           </div>
 
           {/* Image Credit */}
@@ -58,37 +61,37 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
           )}
         </div>
 
-        {/* Content */}
-        <div className="p-4 md:p-5">
+        {/* Content Section */}
+        <div className="p-5 md:p-6 flex flex-col h-full">
           {/* Title */}
-          <h3 className="text-lg md:text-xl font-display font-bold mb-2 text-text-primary group-hover:text-accent-neon-pink transition-colors duration-300 line-clamp-2">
+          <h3 className="text-lg md:text-xl font-display font-bold mb-3 text-text-primary group-hover:text-accent-neon-magenta transition-colors duration-300 line-clamp-2">
             {article.title}
           </h3>
 
           {/* Excerpt */}
-          <p className="text-sm text-text-secondary mb-4 line-clamp-2">
+          <p className="text-sm text-text-secondary mb-4 line-clamp-2 flex-grow">
             {truncate(article.excerpt, 120)}
           </p>
 
-          {/* Meta */}
-          <div className="flex gap-4 text-xs font-mono text-text-muted mb-4">
-            <div className="flex items-center gap-1">
-              <Calendar size={14} />
-              {formatDate(article.published_at || article.created_at)}
+          {/* Meta - Improved styling */}
+          <div className="flex gap-4 text-xs font-mono text-text-muted mb-4 pb-4 border-b border-border-light">
+            <div className="flex items-center gap-1.5">
+              <Calendar size={14} className="text-accent-neon-magenta/60" />
+              <span>{formatDate(article.published_at || article.created_at)}</span>
             </div>
-            <div className="flex items-center gap-1">
-              <Clock size={14} />
-              {article.reading_time} min
+            <div className="flex items-center gap-1.5">
+              <Clock size={14} className="text-accent-neon-cyan/60" />
+              <span>{article.reading_time} min</span>
             </div>
           </div>
 
-          {/* Tags */}
+          {/* Tags - Miami neon styling */}
           {article.tags && article.tags.length > 0 && (
             <div className="flex gap-2 flex-wrap mb-4">
               {article.tags.slice(0, 2).map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-accent-neon-purple/10 text-accent-purple rounded border border-accent-purple/30"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs bg-accent-neon-cyan/10 text-accent-neon-cyan rounded border border-accent-neon-cyan/30 font-mono uppercase tracking-tighter"
                 >
                   <Tag size={12} />
                   {tag}
@@ -97,9 +100,10 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
             </div>
           )}
 
-          {/* Read More */}
-          <div className="pt-4 border-t border-accent-neon-pink/15 text-accent-neon-pink group-hover:text-accent-neon-cyan transition-colors duration-300 text-sm font-semibold">
-            Czytaj dalej →
+          {/* Read More CTA */}
+          <div className="mt-auto pt-4 text-accent-neon-magenta group-hover:text-accent-neon-cyan transition-all duration-300 text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+            <span>Czytaj dalej</span>
+            <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
           </div>
         </div>
       </div>
