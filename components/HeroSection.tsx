@@ -24,7 +24,7 @@ const HeroSection = () => {
       {/* Enhanced animated background with sophisticated gradients */}
       <div className="absolute inset-0 -z-10">
         {/* Base dark background with opacity for image visibility */}
-        <div className="absolute inset-0 bg-bg-primary/70" />
+        <div className="absolute inset-0 bg-bg-primary/85" />
 
         {/* Animated gradient orbs with better positioning */}
         <div className="absolute inset-0 opacity-20">
@@ -49,10 +49,10 @@ const HeroSection = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-12 md:py-20">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-8 md:py-12 lg:py-16">
         {/* Badge - Enhanced */}
         <div
-          className={`inline-block mb-10 transition-all duration-700 ${
+          className={`inline-block mb-12 transition-all duration-700 ${
             isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
           }`}
         >
@@ -63,7 +63,7 @@ const HeroSection = () => {
 
         {/* Main Title - Spectacular */}
         <h1
-          className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black mb-8 leading-tight transition-all duration-1000 ${
+          className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black mb-10 leading-tight transition-all duration-1000 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
           }`}
         >
@@ -79,7 +79,7 @@ const HeroSection = () => {
 
         {/* Subtitle - Premium typography */}
         <p
-          className={`text-lg sm:text-xl md:text-2xl text-text-primary mb-4 max-w-3xl mx-auto leading-relaxed font-medium transition-all duration-1000 delay-200 ${
+          className={`text-base sm:text-lg md:text-xl text-text-primary mb-6 max-w-3xl mx-auto leading-relaxed font-medium transition-all duration-1000 delay-200 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
           }`}
         >
