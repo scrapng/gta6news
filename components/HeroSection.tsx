@@ -13,13 +13,21 @@ const HeroSection = () => {
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
+      {/* GTA6 Hero Background Image */}
+      <div
+        className="absolute inset-0 -z-20 bg-cover bg-center"
+        style={{
+          backgroundImage: 'url(/images/GTA-6-Hero.webp)',
+        }}
+      />
+
       {/* Enhanced animated background with sophisticated gradients */}
       <div className="absolute inset-0 -z-10">
-        {/* Base dark background */}
-        <div className="absolute inset-0 bg-bg-primary" />
+        {/* Base dark background with opacity for image visibility */}
+        <div className="absolute inset-0 bg-bg-primary/70" />
 
         {/* Animated gradient orbs with better positioning */}
-        <div className="absolute inset-0 opacity-25">
+        <div className="absolute inset-0 opacity-20">
           {/* Top left - Magenta */}
           <div className="absolute -top-40 -left-40 w-96 h-96 bg-accent-neon-magenta rounded-full mix-blend-screen filter blur-[120px] animate-pulse-slow" />
 
