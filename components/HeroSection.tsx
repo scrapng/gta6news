@@ -13,65 +13,85 @@ const HeroSection = () => {
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Enhanced animated background gradient */}
-      <div className="absolute inset-0 -z-10 bg-gradient-dark">
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 -left-40 w-80 h-80 bg-accent-neon-magenta rounded-full mix-blend-screen filter blur-3xl animate-pulse-slow" />
-          <div className="absolute top-1/3 -right-40 w-96 h-96 bg-accent-neon-cyan rounded-full mix-blend-screen filter blur-3xl animate-pulse-slow" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-80 h-80 bg-accent-neon-orange rounded-full mix-blend-screen filter blur-3xl animate-pulse-slow delay-1000" />
+      {/* Enhanced animated background with sophisticated gradients */}
+      <div className="absolute inset-0 -z-10">
+        {/* Base dark background */}
+        <div className="absolute inset-0 bg-bg-primary" />
+
+        {/* Animated gradient orbs with better positioning */}
+        <div className="absolute inset-0 opacity-25">
+          {/* Top left - Magenta */}
+          <div className="absolute -top-40 -left-40 w-96 h-96 bg-accent-neon-magenta rounded-full mix-blend-screen filter blur-[120px] animate-pulse-slow" />
+
+          {/* Top right - Cyan */}
+          <div className="absolute -top-20 -right-60 w-[500px] h-[500px] bg-accent-neon-cyan rounded-full mix-blend-screen filter blur-[140px] animate-pulse-slow" style={{animationDelay: '0.5s'}} />
+
+          {/* Bottom center - Orange */}
+          <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 w-96 h-96 bg-accent-neon-orange rounded-full mix-blend-screen filter blur-[120px] animate-pulse-slow" style={{animationDelay: '1s'}} />
+
+          {/* Middle right - Lime accent */}
+          <div className="absolute top-1/2 -right-40 w-80 h-80 bg-accent-neon-lime rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-pulse-slow" style={{animationDelay: '1.5s'}} />
         </div>
 
-        {/* Gradient mesh background */}
-        <div className="absolute inset-0 bg-gradient-miami opacity-5" />
+        {/* Gradient mesh overlay */}
+        <div className="absolute inset-0 bg-gradient-miami opacity-3" />
+
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-5" style={{backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(255, 0, 110, 0.05) 25%, rgba(255, 0, 110, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 110, 0.05) 75%, rgba(255, 0, 110, 0.05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 0, 110, 0.05) 25%, rgba(255, 0, 110, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 110, 0.05) 75%, rgba(255, 0, 110, 0.05) 76%, transparent 77%, transparent)', backgroundSize: '50px 50px'}} />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
-        {/* Badge */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-12 md:py-20">
+        {/* Badge - Enhanced */}
         <div
-          className={`inline-block mb-8 transition-all duration-700 ${
+          className={`inline-block mb-10 transition-all duration-700 ${
             isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
           }`}
         >
-          <span className="px-4 py-2 rounded-full bg-accent-neon-magenta/10 border border-accent-neon-magenta/30 text-accent-neon-magenta text-sm font-mono uppercase tracking-widest">
-            ▶ Gra już dostępna
+          <span className="px-5 py-2.5 rounded-full bg-gradient-to-r from-accent-neon-magenta/15 to-accent-neon-cyan/15 border border-accent-neon-magenta/40 text-accent-neon-magenta text-xs font-semibold mono uppercase tracking-widest shadow-lg shadow-accent-neon-magenta/20">
+            ▶ Gra już dostępna • PS5 & Xbox Series X|S
           </span>
         </div>
 
-        {/* Main Title with Enhanced Glitch Effect */}
+        {/* Main Title - Spectacular */}
         <h1
-          className={`text-5xl sm:text-6xl md:text-8xl xl:text-9xl font-display font-black mb-6 leading-tight transition-all duration-1000 ${
+          className={`text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-display font-black mb-6 leading-none transition-all duration-1000 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
           }`}
         >
-          <span className="inline-block">
-            <span className="text-accent-neon-magenta animate-glitch uppercase-tracking">GTA</span>
+          <span className="block">
+            <span className="text-accent-neon-magenta animate-glitch uppercase-tracking drop-shadow-lg" style={{textShadow: '0 0 30px rgba(255, 0, 110, 0.3)'}}>
+              GTA
+            </span>
           </span>
-          <br />
-          <span className="inline-block text-transparent bg-clip-text bg-gradient-miami uppercase-tracking">
+          <span className="block mt-2 bg-gradient-miami bg-clip-text text-transparent uppercase-tracking drop-shadow-lg">
             6 NEWS
           </span>
         </h1>
 
-        {/* Subtitle with improved styling */}
+        {/* Decorative line */}
+        <div className={`w-32 h-1 bg-gradient-magenta-cyan mx-auto mb-12 transition-all duration-1000 delay-200 ${
+          isLoaded ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
+        }`} />
+
+        {/* Subtitle - Premium typography */}
         <p
-          className={`text-lg sm:text-xl md:text-2xl text-text-secondary mb-8 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-200 ${
+          className={`text-xl sm:text-2xl md:text-3xl text-text-primary mb-6 max-w-3xl mx-auto leading-relaxed font-medium transition-all duration-1000 delay-200 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
           }`}
         >
-          Twoje źródło <span className="text-accent-neon-cyan">informacji</span> o Grand Theft Auto VI
+          Twoje źródło <span className="text-accent-neon-cyan font-bold">informacji</span> o<br className="hidden sm:block" /> <span className="text-accent-neon-magenta font-bold">Grand Theft Auto VI</span>
         </p>
 
         <p
-          className={`text-sm md:text-base text-text-muted mb-12 transition-all duration-1000 delay-300 ${
+          className={`text-sm md:text-base text-text-secondary mb-16 transition-all duration-1000 delay-300 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
           }`}
         >
-          Najnowsze artykuły, newsy, analiza i ciekawostki
+          Najnowsze artykuły • Wciągające newsy • Gruntowna analiza
         </p>
 
-        {/* CTA Buttons with enhanced styling */}
+        {/* CTA Buttons - Premium styling */}
         <div
           className={`flex gap-4 justify-center flex-wrap transition-all duration-1000 delay-400 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
@@ -79,64 +99,73 @@ const HeroSection = () => {
         >
           <Link
             href="/artykuly"
-            className="group btn-base btn-primary uppercase-tight relative overflow-hidden"
+            className="group btn-base btn-primary uppercase-tight text-base px-8 py-3.5 shadow-lg shadow-accent-neon-magenta/40 hover:shadow-neon-magenta relative overflow-hidden"
           >
-            <span className="relative z-10">Czytaj Artykuły</span>
-            <div className="absolute inset-0 bg-gradient-magenta-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="relative z-10 font-bold">Czytaj Artykuły</span>
+            <div className="absolute inset-0 bg-gradient-magenta-cyan opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
           </Link>
 
           <Link
             href="#"
-            className="group btn-base btn-secondary uppercase-tight hover:border-accent-neon-cyan"
+            className="group btn-base btn-secondary uppercase-tight text-base px-8 py-3.5 shadow-lg shadow-accent-neon-magenta/20 hover:shadow-neon-magenta border-2"
           >
-            <span>Śledź Premierę</span>
+            <span className="font-bold">Śledź Premierę</span>
           </Link>
         </div>
 
-        {/* Live stats section */}
+        {/* Live stats section - Premium cards */}
         <div
-          className={`mt-20 grid grid-cols-3 gap-4 md:gap-8 transition-all duration-1000 delay-500 ${
+          className={`mt-24 grid grid-cols-3 gap-6 md:gap-10 transition-all duration-1000 delay-500 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
           }`}
         >
-          <div className="group p-4 md:p-6 rounded-lg neon-border hover:neon-border card-hover">
-            <div className="text-3xl md:text-4xl font-display font-black text-accent-neon-magenta mb-2">
-              1000+
+          {[
+            { value: '1000+', label: 'Artykułów', color: 'magenta' },
+            { value: '50K+', label: 'Czytelników', color: 'cyan' },
+            { value: '24/7', label: 'Wiadomości', color: 'orange' },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className={`group p-6 md:p-8 rounded-2xl gradient-border transition-all duration-300 hover:scale-105 cursor-default`}
+              style={{
+                background: stat.color === 'magenta'
+                  ? 'linear-gradient(135deg, rgba(255, 0, 110, 0.08), rgba(255, 0, 110, 0.02))'
+                  : stat.color === 'cyan'
+                  ? 'linear-gradient(135deg, rgba(0, 245, 255, 0.08), rgba(0, 245, 255, 0.02))'
+                  : 'linear-gradient(135deg, rgba(255, 107, 53, 0.08), rgba(255, 107, 53, 0.02))',
+                boxShadow: stat.color === 'magenta'
+                  ? '0 0 30px rgba(255, 0, 110, 0.2)'
+                  : stat.color === 'cyan'
+                  ? '0 0 30px rgba(0, 245, 255, 0.2)'
+                  : '0 0 30px rgba(255, 107, 53, 0.2)',
+              }}
+            >
+              <div
+                className={`text-4xl md:text-5xl font-display font-black mb-3 ${
+                  stat.color === 'magenta' ? 'text-accent-neon-magenta' :
+                  stat.color === 'cyan' ? 'text-accent-neon-cyan' :
+                  'text-accent-neon-orange'
+                }`}
+              >
+                {stat.value}
+              </div>
+              <div className="text-xs md:text-sm text-text-muted uppercase tracking-widest font-semibold">
+                {stat.label}
+              </div>
             </div>
-            <div className="text-xs md:text-sm text-text-muted uppercase tracking-wider">
-              Artykułów
-            </div>
-          </div>
-
-          <div className="group p-4 md:p-6 rounded-lg neon-border hover:neon-border card-hover">
-            <div className="text-3xl md:text-4xl font-display font-black text-accent-neon-cyan mb-2">
-              50K+
-            </div>
-            <div className="text-xs md:text-sm text-text-muted uppercase tracking-wider">
-              Czytelników
-            </div>
-          </div>
-
-          <div className="group p-4 md:p-6 rounded-lg neon-border hover:neon-border card-hover">
-            <div className="text-3xl md:text-4xl font-display font-black text-accent-neon-orange mb-2">
-              24/7
-            </div>
-            <div className="text-xs md:text-sm text-text-muted uppercase tracking-wider">
-              Wiadomości
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* Scroll indicator - enhanced */}
+        {/* Scroll indicator - Minimal and elegant */}
         <div
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 transition-all duration-1000 delay-700 ${
+          className={`absolute bottom-12 left-1/2 -translate-x-1/2 transition-all duration-1000 delay-700 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          <div className="flex flex-col items-center gap-2">
-            <span className="text-xs text-text-muted uppercase tracking-wider">Scroll</span>
-            <div className="w-6 h-10 border-2 border-accent-neon-magenta/40 rounded-full flex justify-center hover:border-accent-neon-magenta transition-colors">
-              <ArrowDown size={20} className="text-accent-neon-magenta animate-bounce mt-1" />
+          <div className="flex flex-col items-center gap-3">
+            <span className="text-xs text-text-muted uppercase tracking-widest font-semibold">Scroll to explore</span>
+            <div className="w-6 h-10 border-2 border-accent-neon-magenta/50 rounded-full flex justify-center hover:border-accent-neon-magenta transition-colors hover:shadow-glow-magenta">
+              <ArrowDown size={18} className="text-accent-neon-magenta animate-bounce mt-1" />
             </div>
           </div>
         </div>
