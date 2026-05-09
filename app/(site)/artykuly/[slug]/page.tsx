@@ -9,6 +9,7 @@ import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import ArticleCard from '@/components/ArticleCard';
 import { getArticleBySlugAction, getRelatedArticlesAction } from '../actions';
 import ArticleShareButtons from '@/components/ArticleShareButtons';
+import CommentsSection from '@/components/CommentsSection';
 
 export const dynamic = 'force-dynamic';
 
@@ -179,6 +180,9 @@ export default async function ArticlePage({ params }: PageProps) {
           </div>
         )}
       </div>
+
+      {/* Comments Section */}
+      <CommentsSection articleId={article.id} slug={article.slug} />
 
       {/* Related Articles */}
       {relatedArticles.length > 0 && (
