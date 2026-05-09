@@ -62,42 +62,42 @@ const config: Config = {
         widest: '0.1em',
       },
       boxShadow: {
-        'glow-magenta': '0 0 30px rgba(255, 0, 110, 0.6)',
-        'glow-cyan': '0 0 30px rgba(0, 245, 255, 0.6)',
-        'glow-orange': '0 0 30px rgba(255, 107, 53, 0.6)',
-        'glow-lime': '0 0 30px rgba(57, 255, 20, 0.4)',
-        'neon-magenta': '0 0 20px rgba(255, 0, 110, 0.8), 0 0 40px rgba(255, 0, 110, 0.4)',
-        'neon-cyan': '0 0 20px rgba(0, 245, 255, 0.8), 0 0 40px rgba(0, 245, 255, 0.4)',
-        'neon-border': 'inset 0 0 20px rgba(255, 0, 110, 0.2), 0 0 30px rgba(255, 0, 110, 0.1)',
+        'glow-magenta': '0 0 30px rgba(255, 159, 190, 0.6)',
+        'glow-cyan': '0 0 30px rgba(127, 216, 232, 0.6)',
+        'glow-orange': '0 0 30px rgba(255, 183, 125, 0.6)',
+        'glow-lime': '0 0 30px rgba(200, 232, 170, 0.4)',
+        'neon-magenta': '0 0 20px rgba(255, 159, 190, 0.8), 0 0 40px rgba(255, 159, 190, 0.4)',
+        'neon-cyan': '0 0 20px rgba(127, 216, 232, 0.8), 0 0 40px rgba(127, 216, 232, 0.4)',
+        'neon-border': 'inset 0 0 20px rgba(255, 159, 190, 0.2), 0 0 30px rgba(255, 159, 190, 0.1)',
       },
       backgroundImage: {
-        'gradient-miami': 'linear-gradient(135deg, #FF006E 0%, #FF6B35 50%, #00F5FF 100%)',
-        'gradient-magenta-cyan': 'linear-gradient(90deg, #FF006E 0%, #00F5FF 100%)',
-        'gradient-orange-magenta': 'linear-gradient(135deg, #FF6B35 0%, #FF006E 100%)',
+        'gradient-miami': 'linear-gradient(135deg, #FF9FBE 0%, #FFB77D 50%, #7FD8E8 100%)',
+        'gradient-magenta-cyan': 'linear-gradient(90deg, #FF9FBE 0%, #7FD8E8 100%)',
+        'gradient-orange-magenta': 'linear-gradient(135deg, #FFB77D 0%, #FF9FBE 100%)',
         'gradient-dark': 'linear-gradient(180deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 31, 58, 1) 100%)',
-        'gradient-card': 'linear-gradient(135deg, rgba(255, 0, 110, 0.1) 0%, rgba(0, 245, 255, 0.05) 100%)',
+        'gradient-card': 'linear-gradient(135deg, rgba(255, 159, 190, 0.1) 0%, rgba(127, 216, 232, 0.05) 100%)',
       },
       keyframes: {
         glitch: {
           '0%, 100%': {
             transform: 'translateZ(0)',
-            textShadow: '0 0 10px rgba(255, 0, 110, 0.6)',
+            textShadow: '0 0 10px rgba(255, 159, 190, 0.6)',
           },
           '20%': {
             transform: 'translate(2px, 2px)',
-            textShadow: '-2px -2px 0 rgba(0, 245, 255, 0.6)',
+            textShadow: '-2px -2px 0 rgba(127, 216, 232, 0.6)',
           },
           '40%': {
             transform: 'translate(-2px, 2px)',
-            textShadow: '2px -2px 0 rgba(255, 107, 53, 0.6)',
+            textShadow: '2px -2px 0 rgba(255, 183, 125, 0.6)',
           },
           '60%': {
             transform: 'translate(2px, -2px)',
-            textShadow: '-2px 2px 0 rgba(157, 0, 255, 0.6)',
+            textShadow: '-2px 2px 0 rgba(200, 168, 232, 0.6)',
           },
           '80%': {
             transform: 'translate(-2px, -2px)',
-            textShadow: '2px 2px 0 rgba(255, 0, 110, 0.6)',
+            textShadow: '2px 2px 0 rgba(255, 159, 190, 0.6)',
           },
         },
         flip: {
@@ -110,8 +110,8 @@ const config: Config = {
           '50%': { opacity: '0.5' },
         },
         'glow-pulse': {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(255, 0, 110, 0.5)' },
-          '50%': { boxShadow: '0 0 40px rgba(255, 0, 110, 0.8)' },
+          '0%, 100%': { boxShadow: '0 0 20px rgba(255, 159, 190, 0.5)' },
+          '50%': { boxShadow: '0 0 40px rgba(255, 159, 190, 0.8)' },
         },
         'neon-flicker': {
           '0%, 19%, 21%, 23%, 25%, 54%, 56%, 100%': { opacity: '1' },
@@ -150,9 +150,9 @@ const config: Config = {
           css: {
             color: '#FFFFFF',
             a: {
-              color: '#FF006E',
+              color: '#FF9FBE',
               '&:hover': {
-                color: '#00F5FF',
+                color: '#7FD8E8',
               },
             },
             h1: {
@@ -176,11 +176,11 @@ const config: Config = {
               color: '#FFFFFF',
             },
             strong: {
-              color: '#FF006E',
+              color: '#FF9FBE',
             },
             code: {
-              color: '#39FF14',
-              backgroundColor: 'rgba(157, 0, 255, 0.15)',
+              color: '#C8E8AA',
+              backgroundColor: 'rgba(200, 168, 232, 0.15)',
               padding: '0.25rem 0.5rem',
               borderRadius: '0.25rem',
               fontFamily: 'JetBrains Mono, monospace',
@@ -198,10 +198,10 @@ const config: Config = {
             },
             blockquote: {
               color: '#B0B5C0',
-              borderLeftColor: '#FF006E',
+              borderLeftColor: '#FF9FBE',
             },
             hr: {
-              borderColor: 'rgba(255, 0, 110, 0.15)',
+              borderColor: 'rgba(255, 159, 190, 0.15)',
             },
           },
         },

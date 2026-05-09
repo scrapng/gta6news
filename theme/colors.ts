@@ -11,20 +11,20 @@ export const colors = {
     overlay: 'rgba(10, 14, 39, 0.8)',
   },
 
-  // Primary Accent Colors (Miami Neon)
+  // Primary Accent Colors (Miami Pastel)
   primary: {
-    magenta: '#FF006E',
-    magentaLight: '#FF1493',
-    magentaBright: '#FF2D78',
+    magenta: '#FF9FBE',
+    magentaLight: '#FFC8DB',
+    magentaBright: '#FFB8D1',
   },
 
   // Secondary Accent Colors
   secondary: {
-    cyan: '#00F5FF',
-    orange: '#FF6B35',
-    lime: '#39FF14',
-    blue: '#0088FF',
-    purple: '#9D00FF',
+    cyan: '#7FD8E8',
+    orange: '#FFB77D',
+    lime: '#C8E8AA',
+    blue: '#6BB3D8',
+    purple: '#C8A8E8',
   },
 
   // Text Colors
@@ -37,26 +37,26 @@ export const colors = {
 
   // Status Colors
   status: {
-    success: '#39FF14',
-    error: '#FF006E',
-    warning: '#FF6B35',
-    info: '#00F5FF',
+    success: '#C8E8AA',
+    error: '#FF9FBE',
+    warning: '#FFB77D',
+    info: '#7FD8E8',
   },
 
   // Borders & Dividers
   border: {
-    light: 'rgba(255, 0, 110, 0.1)',
-    medium: 'rgba(255, 0, 110, 0.2)',
-    strong: 'rgba(255, 0, 110, 0.3)',
+    light: 'rgba(255, 159, 190, 0.1)',
+    medium: 'rgba(255, 159, 190, 0.2)',
+    strong: 'rgba(255, 159, 190, 0.3)',
   },
 
   // Gradients
   gradients: {
-    miami: 'linear-gradient(135deg, #FF006E 0%, #FF6B35 50%, #00F5FF 100%)',
-    magentaCyan: 'linear-gradient(90deg, #FF006E 0%, #00F5FF 100%)',
-    orangeMagenta: 'linear-gradient(135deg, #FF6B35 0%, #FF006E 100%)',
+    miami: 'linear-gradient(135deg, #FF9FBE 0%, #FFB77D 50%, #7FD8E8 100%)',
+    magentaCyan: 'linear-gradient(90deg, #FF9FBE 0%, #7FD8E8 100%)',
+    orangeMagenta: 'linear-gradient(135deg, #FFB77D 0%, #FF9FBE 100%)',
     dark: 'linear-gradient(180deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 31, 58, 1) 100%)',
-    card: 'linear-gradient(135deg, rgba(255, 0, 110, 0.1) 0%, rgba(0, 245, 255, 0.05) 100%)',
+    card: 'linear-gradient(135deg, rgba(255, 159, 190, 0.1) 0%, rgba(127, 216, 232, 0.05) 100%)',
   },
 
   // Shadows & Glows
@@ -69,12 +69,12 @@ export const colors = {
   },
 
   glows: {
-    magenta: '0 0 30px rgba(255, 0, 110, 0.6)',
-    cyan: '0 0 30px rgba(0, 245, 255, 0.6)',
-    orange: '0 0 30px rgba(255, 107, 53, 0.6)',
-    lime: '0 0 30px rgba(57, 255, 20, 0.4)',
-    neonMagenta: '0 0 20px rgba(255, 0, 110, 0.8), 0 0 40px rgba(255, 0, 110, 0.4)',
-    neonCyan: '0 0 20px rgba(0, 245, 255, 0.8), 0 0 40px rgba(0, 245, 255, 0.4)',
+    magenta: '0 0 30px rgba(255, 159, 190, 0.6)',
+    cyan: '0 0 30px rgba(127, 216, 232, 0.6)',
+    orange: '0 0 30px rgba(255, 183, 125, 0.6)',
+    lime: '0 0 30px rgba(200, 232, 170, 0.4)',
+    neonMagenta: '0 0 20px rgba(255, 159, 190, 0.8), 0 0 40px rgba(255, 159, 190, 0.4)',
+    neonCyan: '0 0 20px rgba(127, 216, 232, 0.8), 0 0 40px rgba(127, 216, 232, 0.4)',
   },
 } as const;
 
@@ -127,15 +127,15 @@ export const semanticColors = {
   // Badges & Tags
   badge: {
     neutral: {
-      bg: 'rgba(255, 0, 110, 0.1)',
+      bg: 'rgba(255, 159, 190, 0.1)',
       text: colors.primary.magenta,
     },
     success: {
-      bg: 'rgba(57, 255, 20, 0.1)',
+      bg: 'rgba(200, 232, 170, 0.1)',
       text: colors.status.success,
     },
     error: {
-      bg: 'rgba(255, 0, 110, 0.1)',
+      bg: 'rgba(255, 159, 190, 0.1)',
       text: colors.status.error,
     },
   },
