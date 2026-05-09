@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
 import HeroSection from '@/components/HeroSection';
 import Countdown from '@/components/Countdown';
 import ArticleGrid from '@/components/ArticleGrid';
+import ImageCredit from '@/components/ImageCredit';
 import { supabase } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
@@ -28,16 +31,52 @@ async function getArticles(limit: number = 9) {
 }
 
 export default async function Home() {
-  const articles = await getArticles(9);
+  const articles = await getArticles(10);
+  const featuredArticle = articles[0];
+  const gridArticles = articles.slice(featuredArticle?.cover_image ? 1 : 0, 9);
 
   return (
     <>
       <HeroSection />
       <Countdown />
+
+      {/* Featured Article */}
+      {featuredArticle?.cover_image && (
+        <section className="w-full py-8 md:py-12 border-b border-accent-neon-pink/15">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl font-display font-bold mb-6 text-accent-neon-pink">WYRÓŻNIONY ARTYKUŁ</h2>
+            <Link href={`/artykuly/${featuredArticle.slug}`}>
+              <div className="group cursor-pointer">
+                <div className="relative w-full h-64 md:h-96 overflow-hidden rounded-lg mb-4">
+                  <Image
+                    src={featuredArticle.cover_image}
+                    alt={featuredArticle.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary/80" />
+                  <h3 className="absolute bottom-4 left-4 right-4 text-2xl md:text-4xl font-display font-bold text-text-primary group-hover:text-accent-neon-pink transition-colors duration-300 line-clamp-3">
+                    {featuredArticle.title}
+                  </h3>
+                </div>
+                <ImageCredit
+                  photographerName={featuredArticle.image_photographer_name}
+                  photographerUrl={featuredArticle.image_photographer_url}
+                  imageSourceUrl={featuredArticle.image_source_url}
+                  imageSource={featuredArticle.image_source}
+                  variant="article"
+                />
+              </div>
+            </Link>
+          </div>
+        </section>
+      )}
+
       <ArticleGrid
-        articles={articles}
+        articles={gridArticles}
         title="Najnowsze Artykuły"
-        showViewMore={articles.length >= 9}
+        showViewMore={articles.length > 9}
         viewMoreHref="/artykuly"
       />
 
