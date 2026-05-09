@@ -129,16 +129,23 @@ export default async function ArticlePage({ params }: PageProps) {
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         {/* Meta */}
-        <div className="flex gap-6 items-center mb-8 flex-wrap text-sm font-mono">
-          <span className={`px-3 py-1 rounded-full font-semibold border`}>
-            {article.category.toUpperCase()}
+        <div className="flex gap-6 items-center mb-8 flex-wrap text-sm">
+          <span className={`px-4 py-2 rounded-full font-semibold border-2 ${
+            article.category === 'news' ? 'bg-accent-neon-magenta/10 border-accent-neon-magenta text-accent-neon-magenta' :
+            article.category === 'gameplay' ? 'bg-accent-neon-cyan/10 border-accent-neon-cyan text-accent-neon-cyan' :
+            article.category === 'story' ? 'bg-accent-neon-orange/10 border-accent-neon-orange text-accent-neon-orange' :
+            article.category === 'leaks' ? 'bg-accent-neon-lime/10 border-accent-neon-lime text-accent-neon-lime' :
+            article.category === 'community' ? 'bg-accent-neon-pink/10 border-accent-neon-pink text-accent-neon-pink' :
+            'bg-accent-neon-cyan/10 border-accent-neon-cyan text-accent-neon-cyan'
+          } uppercase tracking-widest font-display`}>
+            {article.category}
           </span>
-          <div className="flex items-center gap-2 text-text-secondary">
-            <Calendar size={16} />
+          <div className="flex items-center gap-2 text-text-secondary hover:text-accent-neon-cyan transition-colors">
+            <Calendar size={18} />
             {formatDate(article.published_at || article.created_at)}
           </div>
-          <div className="flex items-center gap-2 text-text-secondary">
-            <Clock size={16} />
+          <div className="flex items-center gap-2 text-text-secondary hover:text-accent-neon-magenta transition-colors">
+            <Clock size={18} />
             {article.reading_time} min czytania
           </div>
         </div>
@@ -194,9 +201,9 @@ export default async function ArticlePage({ params }: PageProps) {
         </div>
 
         {/* Author */}
-        <div className="py-8 border-t border-b border-accent-neon-pink/15 mb-16">
-          <p className="text-sm text-text-muted mb-2">Autor:</p>
-          <p className="text-lg font-display font-bold text-text-primary">{article.author}</p>
+        <div className="py-8 px-6 bg-gradient-to-r from-accent-neon-magenta/5 to-accent-neon-cyan/5 border-t border-b border-accent-neon-magenta/20 mb-16 rounded-xl">
+          <p className="text-xs text-text-muted mb-3 font-semibold uppercase tracking-widest">Autor artykułu</p>
+          <p className="text-xl font-display font-bold text-text-primary">{article.author}</p>
         </div>
 
         {/* Tags */}

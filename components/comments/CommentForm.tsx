@@ -62,14 +62,14 @@ export default function CommentForm({ articleId, parentCommentId, onCommentAdded
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-6 space-y-4">
-      <h3 className="text-lg font-display font-bold text-accent-neon-pink">
-        {parentCommentId ? 'Dodaj odpowiedź' : 'Dodaj komentarz'}
+    <form onSubmit={handleSubmit} className="bg-gradient-to-br from-bg-card/50 to-bg-card/30 border border-accent-neon-magenta/30 rounded-2xl p-8 space-y-6 shadow-lg shadow-accent-neon-magenta/10 backdrop-blur-sm">
+      <h3 className="text-xl font-display font-bold bg-gradient-to-r from-accent-neon-magenta to-accent-neon-cyan bg-clip-text text-transparent">
+        {parentCommentId ? '↳ Dodaj odpowiedź' : '💬 Dodaj komentarz'}
       </h3>
 
       {/* Name */}
       <div>
-        <label className="block text-sm text-text-secondary mb-2">Imię *</label>
+        <label className="block text-sm font-semibold text-text-secondary mb-3">Imię *</label>
         <input
           type="text"
           value={name}
@@ -77,27 +77,29 @@ export default function CommentForm({ articleId, parentCommentId, onCommentAdded
           placeholder="Twoje imię"
           required
           maxLength={100}
-          className="w-full px-4 py-2 bg-bg-secondary border border-accent-neon-pink/30 rounded-lg text-text-primary placeholder-text-muted focus:border-accent-neon-pink focus:outline-none transition-colors"
+          className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary placeholder-text-muted focus:border-accent-neon-magenta focus:outline-none focus:shadow-glow-magenta transition-all"
         />
       </div>
 
       {/* Email */}
       <div>
-        <label className="block text-sm text-text-secondary mb-2">Email *</label>
+        <label className="block text-sm font-semibold text-text-secondary mb-3">Email *</label>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="twój@email.com"
           required
-          className="w-full px-4 py-2 bg-bg-secondary border border-accent-neon-pink/30 rounded-lg text-text-primary placeholder-text-muted focus:border-accent-neon-pink focus:outline-none transition-colors"
+          className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary placeholder-text-muted focus:border-accent-neon-magenta focus:outline-none focus:shadow-glow-magenta transition-all"
         />
-        <p className="text-xs text-text-muted mt-1">Email nie będzie publicznie widoczny</p>
+        <p className="text-xs text-text-muted mt-2">Email nie będzie publicznie widoczny</p>
       </div>
 
       {/* Content */}
       <div>
-        <label className="block text-sm text-text-secondary mb-2">Komentarz * ({content.length}/5000)</label>
+        <label className="block text-sm font-semibold text-text-secondary mb-3">
+          Komentarz <span className="text-accent-neon-cyan">*</span> ({content.length}/5000)
+        </label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -105,15 +107,15 @@ export default function CommentForm({ articleId, parentCommentId, onCommentAdded
           required
           maxLength={5000}
           rows={4}
-          className="w-full px-4 py-2 bg-bg-secondary border border-accent-neon-pink/30 rounded-lg text-text-primary placeholder-text-muted focus:border-accent-neon-pink focus:outline-none transition-colors resize-none"
+          className="w-full px-4 py-3 bg-bg-secondary/50 border border-accent-neon-magenta/20 hover:border-accent-neon-magenta/40 rounded-lg text-text-primary placeholder-text-muted focus:border-accent-neon-magenta focus:outline-none focus:shadow-glow-magenta transition-all resize-none"
         />
       </div>
 
       {/* Message */}
       {message && (
         <div
-          className={`p-3 rounded-lg text-sm ${
-            message.type === 'success' ? 'bg-green-900/20 text-green-400 border border-green-500/30' : 'bg-red-900/20 text-red-400 border border-red-500/30'
+          className={`p-4 rounded-lg text-sm font-medium ${
+            message.type === 'success' ? 'bg-green-900/30 text-green-300 border border-green-500/40' : 'bg-red-900/30 text-red-300 border border-red-500/40'
           }`}
         >
           {message.text}
@@ -125,16 +127,16 @@ export default function CommentForm({ articleId, parentCommentId, onCommentAdded
         <button
           type="submit"
           disabled={isSubmitting || !name || !email || !content}
-          className="flex items-center gap-2 flex-1 px-4 py-2 bg-accent-neon-pink hover:bg-accent-neon-cyan text-bg-primary font-bold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="group flex items-center gap-2 flex-1 px-6 py-3 bg-gradient-magenta-cyan hover:shadow-glow-magenta text-bg-primary font-display font-bold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Send size={18} />
+          <Send size={18} className="group-hover:scale-110 transition-transform" />
           {isSubmitting ? 'Wysyłanie...' : 'Wyślij'}
         </button>
         {parentCommentId && onCancel && (
           <button
             type="button"
             onClick={onCancel}
-            className="flex-1 px-4 py-2 bg-bg-secondary hover:bg-bg-primary border border-accent-neon-pink/30 text-text-primary font-bold rounded-lg transition-colors"
+            className="flex-1 px-6 py-3 bg-bg-secondary/50 hover:bg-bg-secondary border border-accent-neon-magenta/30 hover:border-accent-neon-magenta text-text-primary font-bold rounded-lg transition-all"
           >
             Anuluj
           </button>
