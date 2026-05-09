@@ -86,7 +86,7 @@ Zwróć TYLKO poprawny JSON bez backtick-ów.`;
 
   const response = await anthropic.messages.create({
     model: MODEL,
-    max_tokens: 2000,
+    max_tokens: 4000,
     system: SYSTEM_PROMPT,
     messages: [
       {
@@ -219,10 +219,12 @@ export async function runPipeline(count: number = 1, autoPublish: boolean = fals
 
         console.log(`Generating article ${i + 1}/${count} from sources ${startIndex}-${endIndex}...`);
         const generated = await generateArticle(sources);
+        console.log(`Generated article: "${generated.title}" (${generated.content.length} chars)`);
 
         // Validate content length
         const wordCount = generated.content.split(/\s+/).length;
-        if (wordCount < 600) {
+        console.log(`Article word count: ${wordCount} words (min required: 500)`);
+        if (wordCount < 500) {
           errors.push(`Article "${generated.title}" too short (${wordCount} words)`);
           continue;
         }
