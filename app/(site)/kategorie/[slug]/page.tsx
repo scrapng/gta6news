@@ -84,26 +84,49 @@ export default async function CategoryPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Featured Article */}
+      {/* Featured Article - Premium Category Section */}
       {articles && articles.length > 0 && articles[0].cover_image && (
-        <section className="w-full py-8 md:py-12 border-b border-accent-neon-pink/15">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-display font-bold mb-6 text-accent-neon-pink">POLECANY ARTYKUŁ</h2>
+        <section className="w-full py-16 md:py-24 relative border-b border-accent-neon-magenta/20">
+          {/* Background accents */}
+          <div className="absolute inset-0 -z-10 bg-gradient-dark" />
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-accent-neon-cyan/8 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent-neon-orange/5 rounded-full blur-3xl" />
+          </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            {/* Section label */}
+            <div className="inline-block mb-8 px-4 py-2 rounded-full bg-accent-neon-cyan/10 border border-accent-neon-cyan/30">
+              <span className="text-xs font-semibold text-accent-neon-cyan uppercase tracking-widest">
+                ⭐ Polecany artykuł
+              </span>
+            </div>
+
             <Link href={`/artykuly/${articles[0].slug}`}>
               <div className="group cursor-pointer">
-                <div className="relative w-full h-64 md:h-80 overflow-hidden rounded-lg mb-4">
+                {/* Featured image */}
+                <div className="relative w-full h-72 md:h-[450px] overflow-hidden rounded-2xl mb-6 shadow-2xl shadow-accent-neon-cyan/20">
                   <Image
                     src={articles[0].cover_image}
                     alt={articles[0].title}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary/80" />
-                  <h3 className="absolute bottom-4 left-4 right-4 text-2xl md:text-3xl font-display font-bold text-text-primary group-hover:text-accent-neon-pink transition-colors duration-300 line-clamp-2">
-                    {articles[0].title}
-                  </h3>
+
+                  {/* Gradient overlays */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-accent-neon-cyan/0 group-hover:bg-accent-neon-cyan/20 transition-all duration-300" />
+
+                  {/* Content overlay */}
+                  <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10">
+                    <h3 className="text-3xl md:text-4xl font-display font-black text-text-primary group-hover:text-accent-neon-magenta transition-colors duration-300 line-clamp-2 leading-tight drop-shadow-lg">
+                      {articles[0].title}
+                    </h3>
+                  </div>
                 </div>
+
+                {/* Image credit */}
                 <ImageCredit
                   photographerName={articles[0].image_photographer_name}
                   photographerUrl={articles[0].image_photographer_url}
