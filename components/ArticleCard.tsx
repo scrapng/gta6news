@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Article } from '@/types';
 import { formatDate, truncate } from '@/lib/utils';
 import { Calendar, Clock, Tag } from 'lucide-react';
+import ImageCredit from '@/components/ImageCredit';
 
 interface ArticleCardProps {
   article: Article;
@@ -44,6 +45,17 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
           <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-mono font-semibold ${categoryColor.bg} ${categoryColor.text} border ${categoryColor.border}`}>
             {article.category.toUpperCase()}
           </div>
+
+          {/* Image Credit */}
+          {article.cover_image && (
+            <ImageCredit
+              photographerName={article.image_photographer_name}
+              photographerUrl={article.image_photographer_url}
+              imageSourceUrl={article.image_source_url}
+              imageSource={article.image_source}
+              variant="card"
+            />
+          )}
         </div>
 
         {/* Content */}
