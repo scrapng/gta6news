@@ -90,52 +90,52 @@ export default function CommentModerationCard({ comment, onAction }: CommentMode
   };
 
   return (
-    <div className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-4 space-y-3">
+    <div className="bg-gradient-to-br from-bg-card/60 to-bg-card/40 border border-accent-neon-magenta/25 hover:border-accent-neon-magenta/50 rounded-xl p-5 space-y-4 transition-all duration-300 hover:shadow-lg hover:shadow-accent-neon-magenta/10">
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
-          <div className="flex items-center gap-2 flex-wrap mb-1">
-            <h4 className="font-semibold text-text-primary">{comment.author_name}</h4>
-            <span className={`text-xs px-2 py-1 rounded border ${getStatusColor(comment.status)}`}>{comment.status}</span>
+          <div className="flex items-center gap-3 flex-wrap mb-2">
+            <h4 className="font-display font-bold text-text-primary">{comment.author_name}</h4>
+            <span className={`text-xs px-3 py-1.5 rounded-full border font-semibold ${getStatusColor(comment.status)}`}>{comment.status.toUpperCase()}</span>
           </div>
-          <p className="text-xs text-text-muted">{comment.author_email}</p>
-          <p className="text-xs text-text-muted">IP: {comment.author_ip}</p>
-          <time className="text-xs text-text-muted block mt-1">{formatDate(comment.created_at)}</time>
+          <p className="text-xs text-text-muted font-mono">{comment.author_email}</p>
+          <p className="text-xs text-text-muted font-mono">IP: {comment.author_ip}</p>
+          <time className="text-xs text-text-muted block mt-2">{formatDate(comment.created_at)}</time>
         </div>
       </div>
 
       {/* Content */}
-      <div className="bg-bg-secondary/50 rounded p-3">
+      <div className="bg-gradient-to-r from-accent-neon-cyan/10 to-accent-neon-magenta/10 border border-accent-neon-cyan/20 rounded-lg p-4">
         <p className="text-sm text-text-primary whitespace-pre-wrap break-words">{comment.content}</p>
       </div>
 
       {/* Rejection Reason */}
       {comment.rejection_reason && (
-        <div className="bg-red-900/20 border border-red-500/30 rounded p-2">
-          <p className="text-xs text-red-400">
-            <span className="font-bold">Powód odrzucenia:</span> {comment.rejection_reason}
+        <div className="bg-red-900/20 border border-red-500/40 rounded-lg p-3">
+          <p className="text-xs text-red-300">
+            <span className="font-bold">⚠️ Powód odrzucenia:</span> {comment.rejection_reason}
           </p>
         </div>
       )}
 
       {/* Actions */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-3 flex-wrap pt-2">
         {comment.status === 'pending' && (
           <>
             <button
               onClick={handleApprove}
               disabled={isProcessing}
-              className="flex items-center gap-1 px-3 py-1.5 bg-green-600/20 hover:bg-green-600/30 text-green-400 rounded text-sm transition-colors disabled:opacity-50"
+              className="group flex items-center gap-2 px-4 py-2 bg-accent-neon-lime/20 hover:bg-accent-neon-lime/30 text-accent-neon-lime border border-accent-neon-lime/40 hover:border-accent-neon-lime rounded-lg text-sm font-semibold transition-all disabled:opacity-50"
             >
-              <Check size={16} />
+              <Check size={18} className="group-hover:scale-110 transition-transform" />
               Zatwierdź
             </button>
             <button
               onClick={() => setShowRejectForm(!showRejectForm)}
               disabled={isProcessing}
-              className="flex items-center gap-1 px-3 py-1.5 bg-red-600/20 hover:bg-red-600/30 text-red-400 rounded text-sm transition-colors disabled:opacity-50"
+              className="group flex items-center gap-2 px-4 py-2 bg-accent-neon-pink/20 hover:bg-accent-neon-pink/30 text-accent-neon-pink border border-accent-neon-pink/40 hover:border-accent-neon-pink rounded-lg text-sm font-semibold transition-all disabled:opacity-50"
             >
-              <X size={16} />
+              <X size={18} className="group-hover:scale-110 transition-transform" />
               Odrzuć
             </button>
           </>
@@ -144,38 +144,38 @@ export default function CommentModerationCard({ comment, onAction }: CommentMode
         <button
           onClick={handleDelete}
           disabled={isProcessing}
-          className="flex items-center gap-1 px-3 py-1.5 bg-red-700/20 hover:bg-red-700/30 text-red-500 rounded text-sm transition-colors disabled:opacity-50"
+          className="group flex items-center gap-2 px-4 py-2 bg-red-600/20 hover:bg-red-600/30 text-red-500 border border-red-600/40 hover:border-red-600 rounded-lg text-sm font-semibold transition-all disabled:opacity-50"
         >
-          <Trash2 size={16} />
+          <Trash2 size={18} className="group-hover:scale-110 transition-transform" />
           Usuń
         </button>
 
         <button
           onClick={() => setShowBanForm(!showBanForm)}
           disabled={isProcessing}
-          className="flex items-center gap-1 px-3 py-1.5 bg-orange-600/20 hover:bg-orange-600/30 text-orange-400 rounded text-sm transition-colors disabled:opacity-50"
+          className="group flex items-center gap-2 px-4 py-2 bg-orange-600/20 hover:bg-orange-600/30 text-orange-400 border border-orange-600/40 hover:border-orange-600 rounded-lg text-sm font-semibold transition-all disabled:opacity-50"
         >
-          <Ban size={16} />
+          <Ban size={18} className="group-hover:scale-110 transition-transform" />
           Zablokuj
         </button>
       </div>
 
       {/* Reject Form */}
       {showRejectForm && (
-        <div className="space-y-2 bg-bg-secondary/30 p-3 rounded">
+        <div className="space-y-3 bg-gradient-to-br from-bg-secondary/40 to-bg-secondary/20 p-4 rounded-lg border border-accent-neon-pink/20">
           <textarea
             value={rejectReason}
             onChange={(e) => setRejectReason(e.target.value)}
             placeholder="Powód odrzucenia..."
             maxLength={200}
             rows={2}
-            className="w-full px-2 py-1.5 bg-bg-secondary border border-accent-neon-pink/30 rounded text-sm text-text-primary focus:outline-none focus:border-accent-neon-pink"
+            className="w-full px-3 py-2 bg-bg-secondary/50 border border-accent-neon-pink/30 focus:border-accent-neon-pink rounded-lg text-sm text-text-primary focus:outline-none focus:shadow-glow-magenta transition-all"
           />
           <div className="flex gap-2">
             <button
               onClick={handleReject}
               disabled={isProcessing}
-              className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-sm font-bold transition-colors disabled:opacity-50"
+              className="flex-1 px-4 py-2 bg-gradient-to-r from-accent-neon-pink/20 to-red-600/20 border border-accent-neon-pink/40 hover:border-accent-neon-pink text-accent-neon-pink hover:shadow-glow-magenta rounded-lg text-sm font-bold transition-all disabled:opacity-50"
             >
               Potwierdź
             </button>
@@ -184,7 +184,7 @@ export default function CommentModerationCard({ comment, onAction }: CommentMode
                 setShowRejectForm(false);
                 setRejectReason('');
               }}
-              className="px-3 py-1 bg-bg-secondary hover:bg-bg-primary border border-accent-neon-pink/30 text-text-primary rounded text-sm transition-colors"
+              className="flex-1 px-4 py-2 bg-bg-secondary/50 hover:bg-bg-secondary border border-accent-neon-magenta/30 hover:border-accent-neon-magenta text-text-primary rounded-lg text-sm font-bold transition-all"
             >
               Anuluj
             </button>
@@ -194,29 +194,29 @@ export default function CommentModerationCard({ comment, onAction }: CommentMode
 
       {/* Ban Form */}
       {showBanForm && (
-        <div className="space-y-2 bg-bg-secondary/30 p-3 rounded">
+        <div className="space-y-3 bg-gradient-to-br from-bg-secondary/40 to-bg-secondary/20 p-4 rounded-lg border border-orange-600/20">
           <div>
-            <label className="block text-xs text-text-secondary mb-1">Blokada na ile dni? (0 = na zawsze)</label>
+            <label className="block text-xs font-semibold text-text-secondary mb-2">Blokada na ile dni? (0 = na zawsze)</label>
             <input
               type="number"
               value={banDays}
               onChange={(e) => setBanDays(parseInt(e.target.value) || 0)}
               min="0"
               max="365"
-              className="w-full px-2 py-1.5 bg-bg-secondary border border-accent-neon-pink/30 rounded text-sm text-text-primary focus:outline-none focus:border-accent-neon-pink"
+              className="w-full px-3 py-2 bg-bg-secondary/50 border border-orange-600/30 focus:border-orange-600 rounded-lg text-sm text-text-primary focus:outline-none transition-all"
             />
           </div>
           <div className="flex gap-2">
             <button
               onClick={handleBan}
               disabled={isProcessing}
-              className="px-3 py-1 bg-orange-600 hover:bg-orange-700 text-white rounded text-sm font-bold transition-colors disabled:opacity-50"
+              className="flex-1 px-4 py-2 bg-gradient-to-r from-orange-600/20 to-red-600/20 border border-orange-600/40 hover:border-orange-600 text-orange-400 rounded-lg text-sm font-bold transition-all disabled:opacity-50"
             >
               Zablokuj
             </button>
             <button
               onClick={() => setShowBanForm(false)}
-              className="px-3 py-1 bg-bg-secondary hover:bg-bg-primary border border-accent-neon-pink/30 text-text-primary rounded text-sm transition-colors"
+              className="flex-1 px-4 py-2 bg-bg-secondary/50 hover:bg-bg-secondary border border-orange-600/30 hover:border-orange-600 text-text-primary rounded-lg text-sm font-bold transition-all"
             >
               Anuluj
             </button>

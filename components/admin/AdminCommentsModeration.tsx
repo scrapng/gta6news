@@ -78,51 +78,61 @@ export default function AdminCommentsModeration() {
       </div>
 
       {/* Search */}
-      <form onSubmit={handleSearch} className="flex gap-2">
+      <form onSubmit={handleSearch} className="flex gap-3">
         <div className="flex-1 relative">
-          <Search size={18} className="absolute left-3 top-2.5 text-text-muted" />
+          <Search size={20} className="absolute left-3 top-3 text-accent-neon-cyan" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Szukaj po autorze, emailu, treści..."
-            className="w-full pl-10 pr-4 py-2 bg-bg-secondary border border-accent-neon-pink/30 rounded-lg text-text-primary placeholder-text-muted focus:border-accent-neon-pink focus:outline-none"
+            className="w-full pl-11 pr-4 py-3 bg-bg-secondary/50 border border-accent-neon-cyan/30 hover:border-accent-neon-cyan/50 rounded-lg text-text-primary placeholder-text-muted focus:border-accent-neon-cyan focus:outline-none focus:shadow-glow-cyan transition-all"
           />
         </div>
         <button
           type="submit"
-          className="px-4 py-2 bg-accent-neon-pink hover:bg-accent-neon-cyan text-bg-primary font-bold rounded-lg transition-all"
+          className="group px-6 py-3 bg-gradient-magenta-cyan hover:shadow-glow-magenta text-bg-primary font-bold rounded-lg transition-all"
         >
-          Szukaj
+          🔍 Szukaj
         </button>
       </form>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-accent-neon-pink/20 overflow-x-auto">
+      <div className="flex gap-3 border-b border-accent-neon-magenta/20 overflow-x-auto pb-2">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-colors whitespace-nowrap ${
+            className={`group flex items-center gap-2 px-4 py-3 border-b-2 transition-all whitespace-nowrap font-semibold ${
               activeTab === tab.id
-                ? 'border-accent-neon-pink text-accent-neon-pink'
+                ? 'border-accent-neon-magenta text-accent-neon-magenta shadow-glow-magenta'
                 : 'border-transparent text-text-muted hover:text-text-primary'
             }`}
           >
-            {tab.icon}
+            <span className="group-hover:scale-125 transition-transform">{tab.icon}</span>
             {tab.label}
-            <span className="text-xs bg-bg-secondary px-2 py-0.5 rounded-full">{tab.count}</span>
+            <span className={`text-xs px-3 py-1 rounded-full font-bold ${
+              activeTab === tab.id
+                ? 'bg-accent-neon-magenta/20 text-accent-neon-magenta'
+                : 'bg-bg-secondary text-text-muted'
+            }`}>{tab.count}</span>
           </button>
         ))}
       </div>
 
       {/* Comments List */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         {isLoading ? (
-          <div className="text-center py-8 text-text-muted">Ładowanie komentarzy...</div>
+          <div className="text-center py-16">
+            <div className="inline-block">
+              <div className="w-12 h-12 rounded-full border-3 border-accent-neon-cyan/20 border-t-accent-neon-cyan animate-spin mb-4" />
+              <p className="text-text-muted font-medium">Ładowanie komentarzy...</p>
+            </div>
+          </div>
         ) : comments.length === 0 ? (
-          <div className="text-center py-12 bg-bg-secondary/30 rounded-lg border border-accent-neon-pink/10">
-            <p className="text-text-muted">Brak komentarzy do wyświetlenia</p>
+          <div className="text-center py-16 bg-gradient-to-br from-accent-neon-cyan/5 to-accent-neon-magenta/5 rounded-xl border border-accent-neon-cyan/20">
+            <MessageSquare size={48} className="mx-auto mb-4 text-text-muted opacity-30" />
+            <p className="text-text-muted text-lg font-medium">Brak komentarzy do wyświetlenia</p>
           </div>
         ) : (
           comments.map((comment) => (
@@ -137,21 +147,21 @@ export default function AdminCommentsModeration() {
 
       {/* Pagination */}
       {total > limit && (
-        <div className="flex gap-2 justify-center pt-4">
+        <div className="flex gap-3 justify-center pt-8">
           <button
             onClick={() => loadComments(activeTab, Math.max(0, page - 1) * limit)}
             disabled={page === 0}
-            className="px-4 py-2 bg-bg-secondary hover:bg-accent-neon-pink/20 text-text-primary rounded-lg disabled:opacity-50 transition-colors"
+            className="group px-6 py-3 bg-bg-secondary/60 hover:bg-bg-secondary border border-accent-neon-cyan/20 hover:border-accent-neon-cyan text-text-primary hover:text-accent-neon-cyan rounded-lg disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-all"
           >
             ← Poprzednia
           </button>
-          <span className="px-4 py-2 text-text-muted text-sm">
-            Strona {page + 1} z {Math.ceil(total / limit)}
+          <span className="px-4 py-3 text-text-muted text-sm font-medium bg-bg-secondary/30 rounded-lg border border-accent-neon-magenta/10">
+            Strona <span className="text-accent-neon-magenta font-bold">{page + 1}</span> z <span className="text-accent-neon-cyan font-bold">{Math.ceil(total / limit)}</span>
           </span>
           <button
             onClick={() => loadComments(activeTab, (page + 1) * limit)}
             disabled={page >= Math.ceil(total / limit) - 1}
-            className="px-4 py-2 bg-bg-secondary hover:bg-accent-neon-pink/20 text-text-primary rounded-lg disabled:opacity-50 transition-colors"
+            className="group px-6 py-3 bg-bg-secondary/60 hover:bg-bg-secondary border border-accent-neon-cyan/20 hover:border-accent-neon-cyan text-text-primary hover:text-accent-neon-cyan rounded-lg disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-all"
           >
             Następna →
           </button>
