@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { supabase } from '@/lib/supabase';
 import { formatDate, calculateReadingTime } from '@/lib/utils';
 import { ArrowLeft, Share2, Calendar, Clock } from 'lucide-react';
 import ArticleCard from '@/components/ArticleCard';
+import { getArticleBySlugAction, getRelatedArticlesAction } from '../actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,63 +17,10 @@ interface PageProps {
   }>;
 }
 
-async function getArticle(slug: string) {
-  try {
-    if (!supabase) {
-      console.error('Supabase not initialized');
-      return null;
-    }
-
-    const { data, error } = await supabase
-      .from('articles')
-      .select('*')
-      .eq('slug', slug)
-      .eq('status', 'published')
-      .single();
-
-    if (error) {
-      console.error('Error fetching article:', error.message);
-      return null;
-    }
-
-    return data;
-  } catch (error) {
-    console.error('Error in getArticle:', error);
-    return null;
-  }
-}
-
-async function getRelatedArticles(category: string, slug: string, limit: number = 3) {
-  try {
-    if (!supabase) {
-      console.error('Supabase not initialized');
-      return [];
-    }
-
-    const { data, error } = await supabase
-      .from('articles')
-      .select('*')
-      .eq('category', category)
-      .eq('status', 'published')
-      .neq('slug', slug)
-      .order('published_at', { ascending: false })
-      .limit(limit);
-
-    if (error) {
-      console.error('Error fetching related articles:', error.message);
-      return [];
-    }
-
-    return data || [];
-  } catch (error) {
-    console.error('Error in getRelatedArticles:', error);
-    return [];
-  }
-}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = await getArticle(slug);
+  const article = await getArticleBySlugAction(slug);
 
   if (!article) {
     return {
@@ -98,13 +45,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ArticlePage({ params }: PageProps) {
   const { slug } = await params;
-  const article = await getArticle(slug);
+  const article = await getArticleBySlugAction(slug);
 
   if (!article) {
     notFound();
   }
 
-  const relatedArticles = await getRelatedArticles(article.category, slug);
+  const relatedArticles = await getRelatedArticlesAction(article.category, slug);
 
   return (
     <article className="min-h-screen">

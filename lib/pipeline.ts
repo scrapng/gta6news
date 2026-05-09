@@ -16,12 +16,17 @@ const SEARCH_QUERIES = [
 ];
 
 const SYSTEM_PROMPT = `Jesteś doświadczonym redaktorem portalu GTA6News — największego polskiego serwisu o GTA 6.
+
+WAŻNE: Dzisiaj jest MAJ 2026. Grand Theft Auto VI premiery MIAŁ 19 listopada 2026 r. na PS5 i Xbox Series X|S.
+Jeśli artykuł mówi o spekulacjach na temat daty premiery 2025 - to informacja nieaktualna. GTA VI jest już dostępne.
+
 Piszesz po POLSKU. Twoje artykuły są:
 - Wciągające i napisane z pasją gracza
 - Wolne od dosłownego kopiowania źródeł (zawsze parafrazuj!)
 - Nasycone kontekstem i analizą, nie tylko suchymi faktami
 - Zoptymalizowane pod SEO (naturalne użycie słów kluczowych)
 - Długie (800-1200 słów) i wartościowe dla czytelnika
+- Bazujące na AKTUALNYCH faktach - nie spekuluj o przeszłych ereignieniach
 
 Struktura każdego artykułu:
 1. Chwytliwy lead (2-3 zdania)
