@@ -1,6 +1,7 @@
 import { supabaseAdmin } from './supabase';
 import { anthropic, MODEL } from './anthropic';
 import { searchMultipleQueries } from './tavily';
+import { getImageFromUnsplash, generateImageSearchQueries } from './unsplash';
 import { Article, CreateArticleInput, GenerateArticleResponse, SearchResult } from '@/types';
 import { createSlug, calculateReadingTime } from './utils';
 
@@ -156,32 +157,6 @@ Zwróć TYLKO poprawny JSON bez backtick-ów.`;
   return generated;
 }
 
-async function getImageFromUnsplash(query: string): Promise<string | null> {
-  const unsplashKey = process.env.UNSPLASH_ACCESS_KEY;
-  if (!unsplashKey) {
-    console.warn('UNSPLASH_ACCESS_KEY not set, skipping image fetch');
-    return null;
-  }
-
-  try {
-    const response = await fetch(
-      `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=1&client_id=${unsplashKey}`
-    );
-
-    if (!response.ok) {
-      throw new Error(`Unsplash API error: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    if (data.results && data.results.length > 0) {
-      return data.results[0].urls.regular;
-    }
-    return null;
-  } catch (error) {
-    console.error('Error fetching image from Unsplash:', error);
-    return null;
-  }
-}
 
 async function saveArticle(articleData: CreateArticleInput): Promise<Article> {
   const { data, error } = await supabaseAdmin
@@ -261,9 +236,25 @@ export async function runPipeline(count: number = 1, autoPublish: boolean = fals
           continue;
         }
 
-        // Get image
-        console.log(`Fetching image for article "${generated.title}"...`);
-        const imageUrl = await getImageFromUnsplash(generated.category === 'story' ? 'Vice City neon' : 'GTA');
+        // Generate image search queries
+        console.log(`Generating image search queries for article "${generated.title}"...`);
+        const searchQueries = await generateImageSearchQueries(
+          generated.title,
+          generated.content,
+          generated.category
+        );
+
+        // Get image with metadata
+        console.log(`Fetching image for article "${generated.title}" with queries: ${searchQueries.join(', ')}`);
+        let imageMetadata = await getImageFromUnsplash(searchQueries[0]);
+
+        // If first query fails, try fallback queries
+        if (!imageMetadata.url && searchQueries.length > 1) {
+          for (const query of searchQueries.slice(1)) {
+            imageMetadata = await getImageFromUnsplash(query);
+            if (imageMetadata.url) break;
+          }
+        }
 
         // Create article data
         const generatedSlug = createSlug(generated.title); // Always generate from title for consistency
@@ -274,7 +265,11 @@ export async function runPipeline(count: number = 1, autoPublish: boolean = fals
           content: generated.content,
           category: generated.category,
           tags: generated.tags,
-          cover_image: imageUrl || undefined,
+          cover_image: imageMetadata.url || undefined,
+          image_photographer_name: imageMetadata.photographerName,
+          image_photographer_url: imageMetadata.photographerUrl || undefined,
+          image_source_url: imageMetadata.imageSourceUrl || undefined,
+          image_source: imageMetadata.source,
           source_urls: sources.map((s) => s.url),
           seo_title: generated.seo_title,
           seo_description: generated.seo_description,

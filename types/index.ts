@@ -20,6 +20,10 @@ export interface Article {
   created_at: string;
   published_at: string | null;
   updated_at: string;
+  image_photographer_name?: string;
+  image_photographer_url?: string;
+  image_source_url?: string;
+  image_source?: string;
 }
 
 export interface CreateArticleInput {
@@ -36,6 +40,10 @@ export interface CreateArticleInput {
   reading_time: number;
   status?: ArticleStatus;
   published_at?: string | null;
+  image_photographer_name?: string;
+  image_photographer_url?: string;
+  image_source_url?: string;
+  image_source?: string;
 }
 
 export interface PipelineLog {
