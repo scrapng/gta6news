@@ -15,11 +15,25 @@ export async function runPipelineAction() {
       body: JSON.stringify({ count: 1, auto_publish: true }),
     });
 
-    const result = await response.json();
+    const text = await response.text();
 
     if (!response.ok) {
-      throw new Error(result.error || 'Failed to run pipeline');
+      // Log the actual response for debugging
+      console.error('Pipeline API error:', {
+        status: response.status,
+        statusText: response.statusText,
+        response: text.substring(0, 500),
+      });
+
+      try {
+        const result = JSON.parse(text);
+        throw new Error(result.error || 'Failed to run pipeline');
+      } catch (e) {
+        throw new Error(`Server error (${response.status}): ${text.substring(0, 200)}`);
+      }
     }
+
+    const result = JSON.parse(text);
 
     return {
       success: true,
@@ -27,6 +41,7 @@ export async function runPipelineAction() {
       message: `Generated ${result.articles.length} article(s)`,
     };
   } catch (error) {
+    console.error('Pipeline action error:', error);
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
