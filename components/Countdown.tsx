@@ -43,47 +43,81 @@ const Countdown = () => {
     return null;
   }
 
-  const CountdownBox = ({ value, label }: { value: number; label: string }) => (
-    <div className="flex flex-col items-center gap-2">
-      <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-lg border-2 border-accent-neon-pink/60 bg-bg-card/50 backdrop-blur-sm flex items-center justify-center hover:border-accent-neon-cyan hover:shadow-glow-pink transition-all duration-300">
-        <span className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-accent-neon-pink animate-pulse-slow">
-          {String(value).padStart(2, '0')}
+  const CountdownBox = ({ value, label, color }: { value: number; label: string; color: 'magenta' | 'cyan' | 'orange' | 'lime' }) => {
+    const colorMap = {
+      magenta: { bg: 'bg-accent-neon-magenta/10', border: 'border-accent-neon-magenta/40', text: 'text-accent-neon-magenta', hover: 'hover:border-accent-neon-magenta/80 hover:shadow-neon-magenta', glow: 'group-hover:neon-glow-magenta' },
+      cyan: { bg: 'bg-accent-neon-cyan/10', border: 'border-accent-neon-cyan/40', text: 'text-accent-neon-cyan', hover: 'hover:border-accent-neon-cyan/80 hover:shadow-neon-cyan', glow: 'group-hover:neon-glow-cyan' },
+      orange: { bg: 'bg-accent-neon-orange/10', border: 'border-accent-neon-orange/40', text: 'text-accent-neon-orange', hover: 'hover:border-accent-neon-orange/80 hover:shadow-neon-orange', glow: 'group-hover:neon-glow-orange' },
+      lime: { bg: 'bg-accent-neon-lime/10', border: 'border-accent-neon-lime/40', text: 'text-accent-neon-lime', hover: 'hover:border-accent-neon-lime/80 hover:shadow-neon-lime', glow: 'group-hover:neon-glow-lime' },
+    };
+
+    const colors = colorMap[color];
+
+    return (
+      <div className="group flex flex-col items-center gap-3">
+        <div className={`relative w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-xl border-2 ${colors.bg} ${colors.border} ${colors.hover} backdrop-blur-sm flex items-center justify-center transition-all duration-300`}>
+          {/* Background gradient pulse */}
+          <div className={`absolute inset-0 rounded-lg bg-gradient-to-br from-${color}-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-300`} />
+
+          {/* Number */}
+          <span className={`text-4xl sm:text-5xl md:text-6xl font-display font-black ${colors.text} relative z-10 animate-pulse-slow`}>
+            {String(value).padStart(2, '0')}
+          </span>
+
+          {/* Glow effect on hover */}
+          <div className={`absolute inset-0 rounded-lg opacity-0 ${colors.glow} transition-all duration-300`} />
+        </div>
+        <span className={`text-xs sm:text-sm font-mono font-bold ${colors.text} uppercase tracking-widest`}>
+          {label}
         </span>
       </div>
-      <span className="text-xs sm:text-sm font-mono text-text-secondary uppercase tracking-widest">
-        {label}
-      </span>
-    </div>
-  );
+    );
+  };
 
   return (
-    <section className="w-full py-12 md:py-20 bg-gradient-to-b from-bg-secondary/50 to-bg-primary border-t border-b border-accent-neon-pink/15">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-4">
-            <span className="text-accent-neon-pink">DO PREMIERY</span>
-            <span className="text-text-secondary"> GTA VI</span>
+    <section className="w-full py-16 md:py-24 bg-gradient-dark border-y border-accent-neon-magenta/20">
+      {/* Background accent */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-accent-neon-magenta/5 rounded-full filter blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent-neon-cyan/5 rounded-full filter blur-3xl" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-16 md:mb-20">
+          <div className="inline-block mb-4 px-4 py-2 rounded-full bg-accent-neon-magenta/10 border border-accent-neon-magenta/30">
+            <span className="text-xs font-mono text-accent-neon-magenta font-bold uppercase tracking-widest">
+              ▶ GTA VI Available Now
+            </span>
+          </div>
+
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-black mb-6 uppercase-tracking">
+            <span className="text-transparent bg-clip-text bg-gradient-miami">Dostępna na konsolach</span>
           </h2>
-          <p className="text-text-secondary text-sm sm:text-base">
-            19 listopada 2026 • PS5 & Xbox Series X|S
+
+          <p className="text-text-secondary text-base sm:text-lg max-w-2xl mx-auto">
+            <span className="text-accent-neon-cyan font-semibold">19 listopada 2026</span> • PS5 & Xbox Series X|S
           </p>
         </div>
 
-        {/* Countdown Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 justify-items-center">
-          <CountdownBox value={timeLeft.days} label="Dni" />
-          <CountdownBox value={timeLeft.hours} label="Godziny" />
-          <CountdownBox value={timeLeft.minutes} label="Minuty" />
-          <CountdownBox value={timeLeft.seconds} label="Sekundy" />
+        {/* Countdown Grid - Responsive 2x2 to 4x1 */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-16 md:mb-20 justify-items-center">
+          <CountdownBox value={timeLeft.days} label="Dni" color="magenta" />
+          <CountdownBox value={timeLeft.hours} label="Godziny" color="cyan" />
+          <CountdownBox value={timeLeft.minutes} label="Minuty" color="orange" />
+          <CountdownBox value={timeLeft.seconds} label="Sekundy" color="lime" />
         </div>
 
-        {/* CTA */}
-        <div className="mt-12 text-center">
-          <p className="text-text-secondary text-sm mb-4">
-            Chcesz być gotowy na premierę? Subskrybuj nasze artykuły!
+        {/* CTA Section */}
+        <div className="max-w-2xl mx-auto text-center p-8 md:p-10 rounded-2xl border border-accent-neon-magenta/20 bg-accent-neon-magenta/5 backdrop-blur-sm">
+          <h3 className="text-xl md:text-2xl font-display font-bold mb-4 text-text-primary">
+            Nie chcesz <span className="text-accent-neon-cyan">nic</span> przegapić?
+          </h3>
+          <p className="text-text-secondary mb-6 text-sm md:text-base">
+            Subskrybuj nasze artykuły i bądź na bieżąco z najnowszymi wiadomościami o GTA VI!
           </p>
-          <button className="px-8 py-3 bg-accent-neon-pink hover:bg-accent-neon-cyan text-bg-primary font-display font-bold rounded-lg transition-all duration-300 hover:shadow-glow-pink">
-            Subskrybuj Newsy
+          <button className="btn-primary uppercase-tight text-sm md:text-base px-6 md:px-8 py-3 md:py-4">
+            Subskrybuj Teraz
           </button>
         </div>
       </div>
