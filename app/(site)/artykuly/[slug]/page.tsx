@@ -10,6 +10,7 @@ import ArticleCard from '@/components/ArticleCard';
 import { getArticleBySlugAction, getRelatedArticlesAction } from '../actions';
 import ArticleShareButtons from '@/components/ArticleShareButtons';
 import CommentsSection from '@/components/CommentsSection';
+import ImageCredit from '@/components/ImageCredit';
 
 export const dynamic = 'force-dynamic';
 
@@ -60,8 +61,35 @@ export default async function ArticlePage({ params }: PageProps) {
 
   const relatedArticles = await getRelatedArticlesAction(article.category, slug);
 
+  // Schema.org structured data
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.title,
+    description: article.excerpt,
+    image: article.cover_image ? [article.cover_image] : [],
+    datePublished: article.published_at || article.created_at,
+    dateModified: article.updated_at,
+    author: {
+      '@type': 'Person',
+      name: article.author,
+    },
+    ...(article.cover_image && article.image_photographer_name && {
+      creditText: article.image_photographer_name,
+      copyrightHolder: {
+        '@type': 'Organization',
+        name: article.image_source === 'unsplash' ? 'Unsplash' : (article.image_source || 'External Source'),
+      },
+    }),
+  };
+
   return (
-    <article className="min-h-screen">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <article className="min-h-screen">
       {/* Back Button */}
       <div className="sticky top-16 z-40 bg-bg-primary/80 backdrop-blur-md border-b border-accent-neon-pink/15 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto py-3">
@@ -77,16 +105,25 @@ export default async function ArticlePage({ params }: PageProps) {
 
       {/* Hero Image */}
       {article.cover_image && (
-        <div className="relative w-full h-96 md:h-[500px] overflow-hidden">
-          <Image
-            src={article.cover_image}
-            alt={article.title}
-            fill
-            className="object-cover"
-            priority
+        <>
+          <div className="relative w-full h-96 md:h-[500px] overflow-hidden">
+            <Image
+              src={article.cover_image}
+              alt={article.title}
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary" />
+          </div>
+          <ImageCredit
+            photographerName={article.image_photographer_name}
+            photographerUrl={article.image_photographer_url}
+            imageSourceUrl={article.image_source_url}
+            imageSource={article.image_source}
+            variant="article"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary" />
-        </div>
+        </>
       )}
 
       {/* Content */}
@@ -199,6 +236,7 @@ export default async function ArticlePage({ params }: PageProps) {
           </div>
         </section>
       )}
-    </article>
+      </article>
+    </>
   );
 }
