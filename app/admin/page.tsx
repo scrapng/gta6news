@@ -5,6 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { PipelineLog, Article } from '@/types';
 import { formatDateFull } from '@/lib/utils';
 import { Play, RefreshCw, Check, X } from 'lucide-react';
+import { runPipelineAction } from './actions';
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -63,16 +64,7 @@ export default function AdminPage() {
   const runPipeline = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/generate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': process.env.NEXT_PUBLIC_CRON_SECRET || 'secret',
-        },
-        body: JSON.stringify({ count: 1, auto_publish: true }),
-      });
-
-      const result = await response.json();
+      const result = await runPipelineAction();
       if (result.success) {
         alert(`Generated ${result.articles.length} article(s)`);
         fetchData();
