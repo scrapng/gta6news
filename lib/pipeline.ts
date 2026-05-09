@@ -232,10 +232,18 @@ export async function runPipeline(count: number = 1, autoPublish: boolean = fals
         const imageUrl = await getImageFromUnsplash(generated.category === 'story' ? 'Vice City neon' : 'GTA');
 
         // Create article data
+        const generatedSlug = createSlug(generated.title); // Always generate from title for consistency
         const articleData: CreateArticleInput = {
-          ...generated,
+          title: generated.title,
+          slug: generatedSlug, // Use generated slug, not Claude's
+          excerpt: generated.excerpt,
+          content: generated.content,
+          category: generated.category,
+          tags: generated.tags,
           cover_image: imageUrl || undefined,
           source_urls: sources.map((s) => s.url),
+          seo_title: generated.seo_title,
+          seo_description: generated.seo_description,
           reading_time: calculateReadingTime(generated.content),
         };
 
