@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react';
 import { PipelineLog, Article } from '@/types';
 import { formatDateFull } from '@/lib/utils';
-import { Play, RefreshCw, Check, X } from 'lucide-react';
-import { runPipelineAction, fetchAdminDataAction, publishArticleAction, rejectArticleAction } from './actions';
+import { Play, RefreshCw } from 'lucide-react';
+import { runPipelineAction, fetchAdminDataAction } from './actions';
+import AdminArticleActions from '@/components/AdminArticleActions';
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -59,31 +60,6 @@ export default function AdminPage() {
     }
   };
 
-  const publishArticle = async (id: string) => {
-    try {
-      const result = await publishArticleAction(id);
-      if (result.success) {
-        fetchData();
-      } else {
-        alert('Error publishing article');
-      }
-    } catch (error) {
-      alert('Error publishing article');
-    }
-  };
-
-  const rejectArticle = async (id: string) => {
-    try {
-      const result = await rejectArticleAction(id);
-      if (result.success) {
-        fetchData();
-      } else {
-        alert('Error rejecting article');
-      }
-    } catch (error) {
-      alert('Error rejecting article');
-    }
-  };
 
   if (!isAuthenticated) {
     return (
@@ -183,24 +159,9 @@ export default function AdminPage() {
                     {article.status} • {article.category}
                   </p>
                 </div>
-                {article.status === 'draft' && (
-                  <div className="flex gap-2 flex-shrink-0">
-                    <button
-                      onClick={() => publishArticle(article.id)}
-                      className="p-2 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded-lg transition-all"
-                      title="Publish"
-                    >
-                      <Check size={18} />
-                    </button>
-                    <button
-                      onClick={() => rejectArticle(article.id)}
-                      className="p-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-all"
-                      title="Reject"
-                    >
-                      <X size={18} />
-                    </button>
-                  </div>
-                )}
+                <div className="flex-shrink-0">
+                  <AdminArticleActions article={article} onRefresh={fetchData} />
+                </div>
               </div>
             ))}
           </div>

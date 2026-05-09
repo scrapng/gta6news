@@ -38,21 +38,18 @@ export async function fetchAdminDataAction() {
   try {
     const supabaseAdmin = getSupabaseAdmin();
 
-    // Fetch logs
     const { data: logsData } = await supabaseAdmin
       .from('pipeline_logs')
       .select('*')
       .order('run_at', { ascending: false })
       .limit(20);
 
-    // Fetch articles
     const { data: articlesData } = await supabaseAdmin
       .from('articles')
       .select('*')
       .order('created_at', { ascending: false })
       .limit(20);
 
-    // Fetch stats
     const { count: totalCount } = await supabaseAdmin
       .from('articles')
       .select('*', { count: 'exact', head: true });
@@ -120,6 +117,57 @@ export async function rejectArticleAction(id: string) {
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Failed to reject article',
+    };
+  }
+}
+
+export async function hideArticleAction(id: string) {
+  try {
+    const supabaseAdmin = getSupabaseAdmin();
+    await supabaseAdmin.from('articles').update({ status: 'draft' }).eq('id', id);
+
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to hide article',
+    };
+  }
+}
+
+export async function deleteArticleAction(id: string) {
+  try {
+    const supabaseAdmin = getSupabaseAdmin();
+    await supabaseAdmin.from('articles').delete().eq('id', id);
+
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to delete article',
+    };
+  }
+}
+
+export async function updateArticleAction(
+  id: string,
+  updates: {
+    title?: string;
+    excerpt?: string;
+    content?: string;
+    seo_title?: string;
+    seo_description?: string;
+  }
+) {
+  try {
+    const supabaseAdmin = getSupabaseAdmin();
+    await supabaseAdmin.from('articles').update(updates).eq('id', id);
+
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to update article',
     };
   }
 }
