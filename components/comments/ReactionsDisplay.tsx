@@ -63,22 +63,22 @@ export default function ReactionsDisplay({ comment, articleId }: ReactionsDispla
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center gap-3">
       {/* Existing Reactions */}
       {reactions.map((reaction) => (
         <button
           key={reaction.emoji}
           onClick={() => toggleReaction(reaction.emoji)}
           disabled={isLoading}
-          className={`px-2 py-1 rounded-full text-sm transition-all ${
+          className={`group px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
             userReactions.has(reaction.emoji)
-              ? 'bg-accent-neon-pink/30 border border-accent-neon-pink hover:bg-accent-neon-pink/50'
-              : 'bg-bg-secondary border border-accent-neon-pink/15 hover:bg-bg-secondary/80'
+              ? 'bg-gradient-to-r from-accent-neon-magenta/40 to-accent-neon-pink/40 border border-accent-neon-magenta hover:from-accent-neon-magenta/60 hover:to-accent-neon-pink/60 shadow-glow-magenta'
+              : 'bg-bg-secondary/60 border border-accent-neon-cyan/20 hover:border-accent-neon-cyan/50 hover:bg-bg-secondary'
           } disabled:opacity-50 disabled:cursor-not-allowed`}
           title={`${reaction.count} ${reaction.emoji}`}
         >
-          <span>{reaction.emoji}</span>
-          <span className="ml-1 text-text-muted text-xs">{reaction.count}</span>
+          <span className="text-lg group-hover:scale-125 transition-transform">{reaction.emoji}</span>
+          <span className="ml-1 text-text-muted text-xs font-semibold">{reaction.count}</span>
         </button>
       ))}
 
@@ -87,10 +87,10 @@ export default function ReactionsDisplay({ comment, articleId }: ReactionsDispla
         <button
           onClick={() => setShowPicker(!showPicker)}
           disabled={isLoading}
-          className="p-1.5 rounded-full bg-bg-secondary border border-accent-neon-pink/15 hover:bg-accent-neon-pink/20 transition-colors disabled:opacity-50"
+          className="group p-2 rounded-full bg-bg-secondary/60 border border-accent-neon-cyan/20 hover:border-accent-neon-magenta hover:bg-accent-neon-magenta/20 transition-all disabled:opacity-50"
           title="Dodaj reaction"
         >
-          <SmilePlus size={18} className="text-accent-neon-pink" />
+          <SmilePlus size={20} className="text-accent-neon-cyan group-hover:text-accent-neon-magenta group-hover:scale-110 transition-all" />
         </button>
 
         {/* Emoji Picker */}

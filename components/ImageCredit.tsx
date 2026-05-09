@@ -22,36 +22,37 @@ export default function ImageCredit({
 
   if (variant === 'article') {
     return (
-      <div className="bg-bg-card/80 backdrop-blur-sm border-t border-accent-neon-pink/20 px-4 md:px-8 py-3">
+      <div className="bg-gradient-to-r from-accent-neon-magenta/10 to-accent-neon-cyan/10 backdrop-blur-sm border-t border-accent-neon-magenta/30 px-4 md:px-8 py-4">
         <div className="max-w-4xl mx-auto">
-          <p className="text-sm text-text-muted">
-            <span className="text-text-secondary">Photo by </span>
+          <p className="text-sm text-text-muted flex items-center gap-2">
+            <span className="text-xs font-semibold text-text-secondary uppercase tracking-widest">📷 Photo</span>
+            <span className="text-text-secondary">by </span>
             {photographerUrl ? (
               <a
                 href={photographerUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-neon-pink hover:text-accent-neon-cyan transition-colors font-semibold"
+                className="text-accent-neon-magenta hover:text-accent-neon-cyan transition-colors font-semibold hover:underline"
               >
                 {photographerName}
               </a>
             ) : (
-              <span className="text-accent-neon-pink font-semibold">{photographerName}</span>
+              <span className="text-accent-neon-magenta font-semibold">{photographerName}</span>
             )}
             {imageSource === 'unsplash' && (
               <>
-                <span className="text-text-secondary"> on </span>
+                <span className="text-text-secondary">on</span>
                 {imageSourceUrl ? (
                   <a
                     href={imageSourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-accent-neon-pink hover:text-accent-neon-cyan transition-colors font-semibold"
+                    className="text-accent-neon-cyan hover:text-accent-neon-magenta transition-colors font-semibold hover:underline"
                   >
                     Unsplash
                   </a>
                 ) : (
-                  <span className="text-accent-neon-pink font-semibold">Unsplash</span>
+                  <span className="text-accent-neon-cyan font-semibold">Unsplash</span>
                 )}
               </>
             )}

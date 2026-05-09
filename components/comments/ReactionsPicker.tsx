@@ -38,10 +38,10 @@ export default function ReactionsPicker({ onSelect, onClose }: ReactionsPickerPr
   return (
     <div
       ref={pickerRef}
-      className="absolute bottom-full right-0 mb-2 bg-bg-card border border-accent-neon-pink/30 rounded-lg shadow-lg p-3 z-50"
+      className="absolute bottom-full right-0 mb-3 bg-gradient-to-br from-bg-card/90 to-bg-secondary/60 border border-accent-neon-magenta/40 rounded-xl shadow-2xl shadow-accent-neon-magenta/20 p-4 z-50 backdrop-blur-sm"
     >
       {/* Preset Reactions */}
-      <div className="grid grid-cols-5 gap-2 mb-3">
+      <div className="grid grid-cols-5 gap-2 mb-4">
         {PRESET_REACTIONS.map((emoji) => (
           <button
             key={emoji}
@@ -49,7 +49,7 @@ export default function ReactionsPicker({ onSelect, onClose }: ReactionsPickerPr
               onSelect(emoji);
               onClose();
             }}
-            className="text-xl hover:scale-125 transition-transform hover:bg-accent-neon-pink/20 p-1 rounded"
+            className="text-2xl hover:scale-150 transition-transform hover:bg-accent-neon-magenta/30 p-2 rounded-lg cursor-pointer active:scale-90"
             title={emoji}
           >
             {emoji}
@@ -58,9 +58,9 @@ export default function ReactionsPicker({ onSelect, onClose }: ReactionsPickerPr
       </div>
 
       {/* Custom Emoji Input */}
-      <div className="border-t border-accent-neon-pink/15 pt-2">
+      <div className="border-t border-accent-neon-magenta/20 pt-3">
         {showCustomInput ? (
-          <form onSubmit={handleCustomSubmit} className="flex gap-1">
+          <form onSubmit={handleCustomSubmit} className="flex gap-2">
             <input
               type="text"
               value={customEmoji}
@@ -68,11 +68,11 @@ export default function ReactionsPicker({ onSelect, onClose }: ReactionsPickerPr
               placeholder="Emoji..."
               maxLength={10}
               autoFocus
-              className="flex-1 px-2 py-1 bg-bg-secondary border border-accent-neon-pink/30 rounded text-sm focus:outline-none focus:border-accent-neon-pink"
+              className="flex-1 px-3 py-2 bg-bg-secondary/70 border border-accent-neon-magenta/30 rounded-lg text-sm focus:outline-none focus:border-accent-neon-magenta focus:shadow-glow-magenta transition-all"
             />
             <button
               type="submit"
-              className="px-2 py-1 bg-accent-neon-pink hover:bg-accent-neon-cyan text-bg-primary rounded text-xs font-bold"
+              className="px-4 py-2 bg-gradient-magenta-cyan hover:shadow-glow-magenta text-bg-primary rounded-lg text-xs font-bold transition-all"
             >
               OK
             </button>
@@ -80,7 +80,7 @@ export default function ReactionsPicker({ onSelect, onClose }: ReactionsPickerPr
         ) : (
           <button
             onClick={() => setShowCustomInput(true)}
-            className="w-full px-2 py-1 text-xs text-text-muted hover:text-accent-neon-pink text-center"
+            className="w-full px-2 py-2 text-xs text-text-muted hover:text-accent-neon-cyan text-center font-semibold transition-colors"
           >
             + Własny emoji
           </button>
