@@ -99,9 +99,14 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-text-muted">
-          <p>
-            © 2025-2026 <span className="text-accent-neon-magenta font-semibold">GTA6News</span>. Wszystkie prawa zastrzeżone.
-          </p>
+          <div>
+            <p>
+              © 2025-2026 <span className="text-accent-neon-magenta font-semibold">GTA6News</span>. Wszystkie prawa zastrzeżone.
+            </p>
+            <p className="mt-2 text-xs text-text-muted/70">
+              Built by <Link href="https://scrl.dev" target="_blank" rel="noopener noreferrer" className="text-accent-neon-cyan hover:text-accent-neon-magenta transition-colors font-semibold">SCRL by TomsoN</Link>
+            </p>
+          </div>
           <p>
             Grand Theft Auto jest znakiem towarowym <span className="text-accent-neon-cyan font-semibold">Rockstar Games</span>.
           </p>
