@@ -104,7 +104,7 @@ const Footer = () => {
               © 2025-2026 <span className="text-accent-neon-magenta font-semibold">GTA6News</span>. Wszystkie prawa zastrzeżone.
             </p>
             <p className="mt-2 text-xs text-text-muted/70">
-              Built by <Link href="https://scrl.dev" target="_blank" rel="noopener noreferrer" className="text-accent-neon-cyan hover:text-accent-neon-magenta transition-colors font-semibold">SCRL by TomsoN</Link>
+              Built by <Link href="https://scrl.online" target="_blank" rel="noopener noreferrer" className="text-accent-neon-cyan hover:text-accent-neon-magenta transition-colors font-semibold">SCRL by TomsoN</Link>
             </p>
           </div>
           <p>

@@ -64,6 +64,9 @@ export async function fetchAdminDataAction() {
       .select('*', { count: 'exact', head: true })
       .eq('status', 'draft');
 
+    // Calculate total views
+    const totalViews = (articlesData || []).reduce((sum, article) => sum + (article.views || 0), 0);
+
     return {
       success: true,
       logs: logsData || [],
@@ -72,6 +75,7 @@ export async function fetchAdminDataAction() {
         totalArticles: totalCount || 0,
         publishedArticles: publishedCount || 0,
         draftArticles: draftCount || 0,
+        totalViews: totalViews,
       },
     };
   } catch (error) {
@@ -84,6 +88,7 @@ export async function fetchAdminDataAction() {
         totalArticles: 0,
         publishedArticles: 0,
         draftArticles: 0,
+        totalViews: 0,
       },
       error: error instanceof Error ? error.message : 'Failed to fetch data',
     };

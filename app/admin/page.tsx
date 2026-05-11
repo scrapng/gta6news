@@ -23,6 +23,7 @@ export default function AdminPage() {
     totalArticles: 0,
     publishedArticles: 0,
     draftArticles: 0,
+    totalViews: 0,
   });
 
   const handleLogin = (e: React.FormEvent) => {
@@ -150,7 +151,7 @@ export default function AdminPage() {
         {activeTab === 'dashboard' && (
           <>
             {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-6">
             <p className="text-text-muted text-sm mb-2">Total Articles</p>
             <p className="text-3xl font-display font-bold text-accent-neon-pink">{stats.totalArticles}</p>
@@ -162,6 +163,10 @@ export default function AdminPage() {
           <div className="bg-bg-card border border-accent-neon-pink/20 rounded-lg p-6">
             <p className="text-text-muted text-sm mb-2">Drafts</p>
             <p className="text-3xl font-display font-bold text-yellow-400">{stats.draftArticles}</p>
+          </div>
+          <div className="bg-bg-card border border-accent-neon-cyan/20 rounded-lg p-6">
+            <p className="text-text-muted text-sm mb-2">Total Views</p>
+            <p className="text-3xl font-display font-bold text-accent-neon-cyan">{stats.totalViews.toLocaleString()}</p>
           </div>
         </div>
 
@@ -178,7 +183,7 @@ export default function AdminPage() {
         {/* Recent Logs */}
         <div className="mb-8">
           <h2 className="text-2xl font-display font-bold mb-4 text-text-primary">Recent Runs</h2>
-          <div className="bg-bg-card border border-accent-neon-pink/20 rounded-lg overflow-x-auto">
+          <div className="bg-bg-card border border-accent-neon-pink/20 rounded-lg overflow-x-auto max-h-80">
             <table className="w-full text-sm">
               <thead className="bg-bg-secondary border-b border-accent-neon-pink/20">
                 <tr>
@@ -207,7 +212,7 @@ export default function AdminPage() {
             {/* Recent Articles */}
             <div>
               <h2 className="text-2xl font-display font-bold mb-4 text-text-primary">Recent Articles</h2>
-              <div className="space-y-3">
+              <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
                 {articles.map((article) => (
                   <div
                     key={article.id}
@@ -263,7 +268,7 @@ export default function AdminPage() {
         {activeTab === 'articles' && (
           <div>
             <h2 className="text-2xl font-display font-bold mb-4 text-text-primary">All Articles</h2>
-            <div className="space-y-3">
+            <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
               {articles.map((article) => (
                 <div
                   key={article.id}
