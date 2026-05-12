@@ -18,11 +18,23 @@ const SEARCH_QUERIES = [
   'GTA 6 world map discoveries',
 ];
 
-const SYSTEM_PROMPT = `Jesteś doświadczonym redaktorem portalu GTA6News — największego polskiego serwisu o GTA 6.
+function getSystemPrompt(): string {
+  const today = new Date();
+  const months = ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca', 'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'];
+  const monthName = months[today.getMonth()];
+  const dateStr = `${today.getDate()} ${monthName} ${today.getFullYear()}`;
 
-WAŻNE: Dzisiaj jest MAJ 12, 2026. Grand Theft Auto VI premiera będzie 19 listopada 2026 r. na PS5 i Xbox Series X|S.
-GTA VI NIE JEST JESZCZE DOSTĘPNE. To przyszłość. Piszesz artykuły o wiadomościach, spekulacjach i ciekawostkach PRZED premierą gry.
-Jeśli znajdziesz informacje o grze sprzed 19 listopada - są aktualne. Jeśli coś mówi że gra jest już dostępna - to fałszywa informacja.
+  const releaseDate = new Date('2026-11-19');
+  const isAfterRelease = today >= releaseDate;
+
+  const releaseStatus = isAfterRelease
+    ? `GTA VI ZOSTAŁO UDOSTĘPNIONE na PS5 i Xbox Series X|S. Artykuły powinny się odnosić do wiadomości o dostępnej już grze.`
+    : `GTA VI premiera będzie 19 listopada 2026 r. na PS5 i Xbox Series X|S. GTA VI NIE JEST JESZCZE DOSTĘPNE. To przyszłość. Piszesz artykuły o wiadomościach, spekulacjach i ciekawostkach PRZED premierą gry.`;
+
+  return `Jesteś doświadczonym redaktorem portalu GTA6News — największego polskiego serwisu o GTA 6.
+
+WAŻNE: Dzisiaj jest ${dateStr}. ${releaseStatus}
+Jeśli znajdziesz informacje sprzeczne z dzisiejszą datą - ignoruj je i użyj aktualnych faktów.
 
 Twoja rola: Tworzymy artykuły o NAJNOWSZYCH WIADOMOŚCIACH i CIEKAWOSTKACH dotyczących GTA 6.
 
@@ -73,6 +85,7 @@ KATEGORIE: news, gameplay, story, leaks, community, analysis
     "seo_title": "...",
     "seo_description": "..."
   }`;
+}
 
 async function deduplicateResults(results: SearchResult[]): Promise<SearchResult[]> {
   if (results.length === 0) return [];
@@ -112,7 +125,7 @@ Zwróć TYLKO poprawny JSON bez backtick-ów.`;
   const response = await anthropic.messages.create({
     model: MODEL,
     max_tokens: 4000,
-    system: SYSTEM_PROMPT,
+    system: getSystemPrompt(),
     messages: [
       {
         role: 'user',
