@@ -274,6 +274,7 @@ export async function runPipeline(count: number = 1, autoPublish: boolean = fals
           seo_title: generated.seo_title,
           seo_description: generated.seo_description,
           reading_time: calculateReadingTime(generated.content),
+          author: 'Redakcja GTA6News',
         };
 
         // Save to database

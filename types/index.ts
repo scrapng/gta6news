@@ -35,6 +35,7 @@ export interface CreateArticleInput {
   tags: string[];
   cover_image?: string;
   source_urls: string[];
+  author?: string;
   seo_title?: string;
   seo_description?: string;
   reading_time: number;
