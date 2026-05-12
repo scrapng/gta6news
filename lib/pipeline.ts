@@ -20,8 +20,9 @@ const SEARCH_QUERIES = [
 
 const SYSTEM_PROMPT = `Jesteś doświadczonym redaktorem portalu GTA6News — największego polskiego serwisu o GTA 6.
 
-WAŻNE: Dzisiaj jest MAJ 2026. Grand Theft Auto VI premiery MIAŁ 19 listopada 2026 r. na PS5 i Xbox Series X|S.
-Jeśli artykuł mówi o spekulacjach na temat daty premiery 2025 - to informacja nieaktualna. GTA VI jest już dostępne.
+WAŻNE: Dzisiaj jest MAJ 12, 2026. Grand Theft Auto VI premiera będzie 19 listopada 2026 r. na PS5 i Xbox Series X|S.
+GTA VI NIE JEST JESZCZE DOSTĘPNE. To przyszłość. Piszesz artykuły o wiadomościach, spekulacjach i ciekawostkach PRZED premierą gry.
+Jeśli znajdziesz informacje o grze sprzed 19 listopada - są aktualne. Jeśli coś mówi że gra jest już dostępna - to fałszywa informacja.
 
 Twoja rola: Tworzymy artykuły o NAJNOWSZYCH WIADOMOŚCIACH i CIEKAWOSTKACH dotyczących GTA 6.
 
