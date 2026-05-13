@@ -6,7 +6,6 @@ import Countdown from '@/components/Countdown';
 import NewsletterCTA from '@/components/NewsletterCTA';
 import ArticleGrid from '@/components/ArticleGrid';
 import ImageCredit from '@/components/ImageCredit';
-import NewsletterSection from '@/components/NewsletterSection';
 import { supabase } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
@@ -105,8 +104,6 @@ export default async function Home() {
         showViewMore={articles.length > 9}
         viewMoreHref="/artykuly"
       />
-
-      <NewsletterSection />
     </>
   );
 }
