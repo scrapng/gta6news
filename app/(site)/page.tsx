@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import HeroSection from '@/components/HeroSection';
 import Countdown from '@/components/Countdown';
+import NewsletterCTA from '@/components/NewsletterCTA';
 import ArticleGrid from '@/components/ArticleGrid';
 import ImageCredit from '@/components/ImageCredit';
 import NewsletterSection from '@/components/NewsletterSection';
@@ -40,6 +41,7 @@ export default async function Home() {
     <>
       <HeroSection />
       <Countdown />
+      <NewsletterCTA />
 
       {/* Featured Article - Premium Section */}
       {featuredArticle?.cover_image && (
