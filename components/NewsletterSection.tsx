@@ -11,19 +11,30 @@ export default function NewsletterSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!email) {
+      setMessage({ type: 'error', text: 'Wpisz swój email' });
+      return;
+    }
+
     setIsLoading(true);
     setMessage(null);
 
-    const result = await subscribeToNewsletterAction(email);
+    try {
+      const result = await subscribeToNewsletterAction(email);
 
-    if (result.success) {
-      setMessage({ type: 'success', text: result.message || 'Subskrypcja przebiegła pomyślnie!' });
-      setEmail('');
-    } else {
-      setMessage({ type: 'error', text: result.error || 'Coś poszło nie tak' });
+      if (result.success) {
+        setMessage({ type: 'success', text: result.message || 'Dziękujemy za subskrypcję!' });
+        setEmail('');
+      } else {
+        setMessage({ type: 'error', text: result.error || 'Coś poszło nie tak. Spróbuj ponownie.' });
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      setMessage({ type: 'error', text: 'Błąd połączenia. Spróbuj ponownie.' });
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   return (
@@ -40,20 +51,20 @@ export default function NewsletterSection() {
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex gap-3 flex-col sm:flex-row">
+          <div className="flex gap-3 flex-col sm:flex-row items-stretch sm:items-center">
             <input
               type="email"
               placeholder="Twój email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isLoading}
-              className="flex-1 px-4 py-3 bg-bg-card border border-accent-neon-magenta/30 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-neon-magenta focus:shadow-lg focus:shadow-accent-neon-magenta/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-3 sm:py-3 bg-bg-card border border-accent-neon-magenta/30 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-neon-magenta focus:shadow-lg focus:shadow-accent-neon-magenta/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-base"
               required
             />
             <button
               type="submit"
               disabled={isLoading}
-              className="px-6 py-3 bg-accent-neon-magenta hover:bg-accent-neon-cyan text-bg-primary font-display font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-accent-neon-magenta/30 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              className="w-full sm:w-auto px-6 py-3 sm:py-3 bg-accent-neon-magenta hover:bg-accent-neon-cyan active:scale-95 text-bg-primary font-display font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-accent-neon-magenta/30 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap text-base sm:text-sm font-semibold"
             >
               {isLoading ? 'Wysyłanie...' : 'Subskrybuj'}
             </button>
