@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { estimateTimeUntil } from '@/lib/utils';
+import { subscribeToNewsletterAction } from '@/app/(site)/actions';
+import { AlertCircle, CheckCircle } from 'lucide-react';
 
 interface TimeLeft {
   days: number;
@@ -18,6 +20,10 @@ const Countdown = () => {
     seconds: 0,
   });
   const [mounted, setMounted] = useState(false);
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -42,6 +48,35 @@ const Countdown = () => {
   if (!mounted) {
     return null;
   }
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email) {
+      setMessage({ type: 'error', text: 'Wpisz swój email' });
+      return;
+    }
+
+    setIsLoading(true);
+    setMessage(null);
+
+    try {
+      const result = await subscribeToNewsletterAction(email);
+
+      if (result.success) {
+        setMessage({ type: 'success', text: result.message || 'Dziękujemy za subskrypcję!' });
+        setEmail('');
+        setTimeout(() => setShowForm(false), 2000);
+      } else {
+        setMessage({ type: 'error', text: result.error || 'Coś poszło nie tak. Spróbuj ponownie.' });
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      setMessage({ type: 'error', text: 'Błąd połączenia. Spróbuj ponownie.' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const boxes = [
     { value: timeLeft.days, label: 'Dni', color: '#FF9FBE' },
@@ -108,22 +143,76 @@ const Countdown = () => {
         </div>
 
         {/* CTA */}
-        <div className="w-full max-w-2xl mx-auto p-8 md:p-10 rounded-2xl border border-[#FF9FBE]/20 bg-[#FF9FBE]/5 backdrop-blur-sm">
-          <h3 className="text-xl md:text-2xl font-display font-bold mb-4 text-white">
-            Nie chcesz <span style={{ color: '#7FD8E8' }}>nic</span> przegapić?
-          </h3>
-          <p className="text-white/50 mb-8 text-sm md:text-base leading-relaxed">
-            Subskrybuj nasze artykuły i bądź na bieżąco z najnowszymi wiadomościami o GTA VI!
-          </p>
-          <button
-            className="px-8 py-3.5 font-display font-bold text-sm uppercase tracking-wider rounded-lg transition-all duration-300"
-            style={{
-              backgroundColor: '#FF9FBE',
-              color: '#0A0E27',
-            }}
-          >
-            Subskrybuj Teraz
-          </button>
+        <div className="w-full max-w-2xl mx-auto p-8 md:p-10 rounded-2xl border border-[#FF9FBE]/20 bg-[#FF9FBE]/5 backdrop-blur-sm overflow-hidden transition-all duration-300">
+          {!showForm ? (
+            <div>
+              <h3 className="text-xl md:text-2xl font-display font-bold mb-4 text-white">
+                Nie chcesz <span style={{ color: '#7FD8E8' }}>nic</span> przegapić?
+              </h3>
+              <p className="text-white/50 mb-8 text-sm md:text-base leading-relaxed">
+                Subskrybuj nasze artykuły i bądź na bieżąco z najnowszymi wiadomościami o GTA VI!
+              </p>
+              <button
+                onClick={() => {
+                  setShowForm(true);
+                  setMessage(null);
+                }}
+                className="w-full sm:w-auto px-8 py-3.5 font-display font-bold text-sm uppercase tracking-wider rounded-lg transition-all duration-300 active:scale-95"
+                style={{
+                  backgroundColor: '#FF9FBE',
+                  color: '#0A0E27',
+                }}
+              >
+                Subskrybuj Teraz
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubscribe} className="space-y-4 animate-fadeIn">
+              <h3 className="text-xl md:text-2xl font-display font-bold text-white">
+                Zapisz się na newsletter
+              </h3>
+              <div className="flex gap-2 flex-col sm:flex-row">
+                <input
+                  type="email"
+                  placeholder="Twój email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
+                  className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 transition-all disabled:opacity-50 backdrop-blur-sm"
+                  autoFocus
+                  required
+                />
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full sm:w-auto px-6 py-3 font-display font-bold text-sm uppercase tracking-wider rounded-lg transition-all duration-300 disabled:opacity-50 active:scale-95"
+                  style={{
+                    backgroundColor: '#C8E8AA',
+                    color: '#0A0E27',
+                  }}
+                >
+                  {isLoading ? 'Wysyłanie...' : 'Subskrybuj'}
+                </button>
+              </div>
+
+              {message && (
+                <div
+                  className={`flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                    message.type === 'success'
+                      ? 'bg-[#C8E8AA]/20 text-[#C8E8AA] border border-[#C8E8AA]/40'
+                      : 'bg-[#FF9FBE]/20 text-[#FF9FBE] border border-[#FF9FBE]/40'
+                  }`}
+                >
+                  {message.type === 'success' ? (
+                    <CheckCircle size={18} />
+                  ) : (
+                    <AlertCircle size={18} />
+                  )}
+                  {message.text}
+                </div>
+              )}
+            </form>
+          )}
         </div>
 
       </div>
