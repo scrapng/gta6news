@@ -1,21 +1,24 @@
 import { supabaseAdmin } from './supabase';
 import { anthropic, MODEL } from './anthropic';
-import { searchMultipleQueries } from './tavily';
+import { searchMultipleQueries, SearchQuery } from './tavily';
 import { getImageFromUnsplash, generateImageSearchQueries } from './unsplash';
 import { Article, CreateArticleInput, GenerateArticleResponse, SearchResult } from '@/types';
 import { createSlug, calculateReadingTime } from './utils';
 
-const SEARCH_QUERIES = [
-  'GTA 6 latest news today',
-  'Grand Theft Auto VI newest updates 2026',
-  'GTA 6 fun facts trivia',
-  'GTA 6 development secrets behind the scenes',
-  'GTA 6 Rockstar Games announcements',
-  'GTA VI interesting details features',
-  'GTA 6 Vice City new information',
-  'Grand Theft Auto 6 gameplay secrets',
-  'GTA 6 characters Lucia Jason',
-  'GTA 6 world map discoveries',
+// Queries genuinely about breaking news use Tavily's 'news' topic (time-boxed
+// to the last few days), so they surface fresh URLs on every run instead of
+// the same evergreen top results. Trivia/lore queries stay 'general'.
+const SEARCH_QUERIES: SearchQuery[] = [
+  { query: 'GTA 6 latest news today', topic: 'news' },
+  { query: 'Grand Theft Auto VI newest updates 2026', topic: 'news' },
+  { query: 'GTA 6 fun facts trivia', topic: 'general' },
+  { query: 'GTA 6 development secrets behind the scenes', topic: 'general' },
+  { query: 'GTA 6 Rockstar Games announcements', topic: 'news' },
+  { query: 'GTA VI interesting details features', topic: 'general' },
+  { query: 'GTA 6 Vice City new information', topic: 'news' },
+  { query: 'Grand Theft Auto 6 gameplay secrets', topic: 'general' },
+  { query: 'GTA 6 characters Lucia Jason', topic: 'general' },
+  { query: 'GTA 6 world map discoveries', topic: 'general' },
 ];
 
 function getSystemPrompt(): string {
@@ -87,13 +90,23 @@ KATEGORIE: news, gameplay, story, leaks, community, analysis
   }`;
 }
 
+// How long a source URL stays "off limits" after being used in an article.
+// Without a rolling window, every URL a fast-running pipeline ever touches
+// gets permanently blacklisted, and the small pool of URLs a fixed set of
+// search queries returns eventually gets exhausted entirely (which is what
+// caused "No new sources found after deduplication" on every run).
+const SOURCE_REUSE_COOLDOWN_DAYS = 45;
+
 async function deduplicateResults(results: SearchResult[]): Promise<SearchResult[]> {
   if (results.length === 0) return [];
+
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - SOURCE_REUSE_COOLDOWN_DAYS);
 
   const { data: existingArticles } = await supabaseAdmin
     .from('articles')
     .select('source_urls')
-    .limit(100);
+    .gte('created_at', cutoff.toISOString());
 
   const usedUrls = new Set<string>();
   existingArticles?.forEach((article: any) => {

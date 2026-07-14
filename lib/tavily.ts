@@ -3,7 +3,10 @@ import { SearchResult } from '@/types';
 const TAVILY_API_KEY = process.env.TAVILY_API_KEY!;
 const TAVILY_API_URL = 'https://api.tavily.com/search';
 
-export async function searchGTA6News(query: string): Promise<SearchResult[]> {
+export async function searchGTA6News(
+  query: string,
+  topic: 'general' | 'news' = 'general'
+): Promise<SearchResult[]> {
   if (!TAVILY_API_KEY) {
     throw new Error('TAVILY_API_KEY is not set');
   }
@@ -17,7 +20,11 @@ export async function searchGTA6News(query: string): Promise<SearchResult[]> {
       body: JSON.stringify({
         api_key: TAVILY_API_KEY,
         query,
-        max_results: 5,
+        topic,
+        // 'days' only applies when topic is 'news' — keeps results fresh so
+        // the same static queries don't keep returning the same URLs every run.
+        ...(topic === 'news' ? { days: 7 } : {}),
+        max_results: 8,
         include_answer: false,
         include_domains: [],
         exclude_domains: [],
@@ -42,13 +49,18 @@ export async function searchGTA6News(query: string): Promise<SearchResult[]> {
   }
 }
 
-export async function searchMultipleQueries(queries: string[]): Promise<SearchResult[]> {
+export interface SearchQuery {
+  query: string;
+  topic?: 'general' | 'news';
+}
+
+export async function searchMultipleQueries(queries: SearchQuery[]): Promise<SearchResult[]> {
   const allResults: SearchResult[] = [];
   const seenUrls = new Set<string>();
 
-  for (const query of queries) {
+  for (const { query, topic } of queries) {
     try {
-      const results = await searchGTA6News(query);
+      const results = await searchGTA6News(query, topic);
       for (const result of results) {
         if (!seenUrls.has(result.url)) {
           seenUrls.add(result.url);
