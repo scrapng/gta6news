@@ -55,7 +55,11 @@ export default function AdminPage() {
     try {
       const result = await runPipelineAction();
       if (result.success) {
-        alert(`Generated ${result.articles.length} article(s)`);
+        if (result.articles.length === 0) {
+          alert('Brak nowych źródeł do wygenerowania artykułów. Wszystkie znalezione newsy zostały już wykorzystane — spróbuj ponownie później, gdy pojawią się nowe informacje.');
+        } else {
+          alert(`Generated ${result.articles.length} article(s)`);
+        }
         fetchData();
       } else {
         alert(`Error: ${result.error}`);

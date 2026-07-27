@@ -41,7 +41,7 @@ Create `.env.local`:
 NEXT_PUBLIC_SUPABASE_URL=your-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-ANTHROPIC_API_KEY=sk-ant-...
+OPENAI_API_KEY=sk-...
 TAVILY_API_KEY=your-tavily-key
 UNSPLASH_ACCESS_KEY=your-unsplash-key
 CRON_SECRET=random-secret

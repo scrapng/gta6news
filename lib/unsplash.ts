@@ -1,4 +1,4 @@
-import { anthropic, MODEL } from './anthropic';
+import { openai, MODEL } from './openai';
 
 export interface UnsplashImageMetadata {
   url: string | null;
@@ -126,9 +126,9 @@ Content Preview: ${content.substring(0, 300)}...
 Return ONLY a JSON array of 3 search query strings, no other text.
 Example: ["GTA 6 Vice City gameplay", "neon gaming aesthetic", "futuristic city lights"]`;
 
-    const response = await anthropic.messages.create({
+    const response = await openai.chat.completions.create({
       model: MODEL,
-      max_tokens: 200,
+      max_completion_tokens: 200,
       messages: [
         {
           role: 'user',
@@ -137,12 +137,12 @@ Example: ["GTA 6 Vice City gameplay", "neon gaming aesthetic", "futuristic city 
       ],
     });
 
-    const textContent = response.content[0];
-    if (textContent.type !== 'text') {
-      throw new Error('Unexpected response type from Claude');
+    const textContent = response.choices[0]?.message?.content;
+    if (!textContent) {
+      throw new Error('Unexpected empty response from OpenAI');
     }
 
-    let jsonText = textContent.text.trim();
+    let jsonText = textContent.trim();
     // Remove markdown code blocks if present
     if (jsonText.startsWith('```json')) {
       jsonText = jsonText.replace(/^```json\n?/, '').replace(/\n?```$/, '');
@@ -154,7 +154,7 @@ Example: ["GTA 6 Vice City gameplay", "neon gaming aesthetic", "futuristic city 
 
     // Validate we got an array of strings
     if (!Array.isArray(queries) || !queries.every((q) => typeof q === 'string')) {
-      throw new Error('Invalid response format from Claude');
+      throw new Error('Invalid response format from OpenAI');
     }
 
     return queries.slice(0, 3); // Ensure max 3 queries

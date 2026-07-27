@@ -38,11 +38,11 @@ A fully functional, production-ready AI-powered news portal for Grand Theft Auto
 
 ### Step 2: Get API Keys
 
-#### Anthropic API Key
-1. Go to [console.anthropic.com](https://console.anthropic.com)
+#### OpenAI API Key
+1. Go to [platform.openai.com](https://platform.openai.com)
 2. Create account or login
 3. Go to "API Keys" → Create new key
-4. Copy to `.env.local` as `ANTHROPIC_API_KEY`
+4. Copy to `.env.local` as `OPENAI_API_KEY`
 
 #### Tavily API Key
 1. Go to [tavily.com](https://tavily.com)
@@ -66,8 +66,8 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 
-# Anthropic
-ANTHROPIC_API_KEY=sk-ant-your-key-here
+# OpenAI
+OPENAI_API_KEY=sk-your-key-here
 
 # Tavily
 TAVILY_API_KEY=your-tavily-key-here

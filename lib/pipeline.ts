@@ -1,11 +1,11 @@
 import { supabaseAdmin } from './supabase';
-import { anthropic, MODEL } from './anthropic';
+import { openai, MODEL } from './openai';
 import { searchMultipleQueries } from './tavily';
 import { getImageFromUnsplash, generateImageSearchQueries } from './unsplash';
 import { Article, CreateArticleInput, GenerateArticleResponse, SearchResult } from '@/types';
 import { createSlug, calculateReadingTime } from './utils';
 
-const SEARCH_QUERIES = [
+const SEARCH_QUERIES_POOL = [
   'GTA 6 latest news today',
   'Grand Theft Auto VI newest updates 2026',
   'GTA 6 fun facts trivia',
@@ -16,7 +16,24 @@ const SEARCH_QUERIES = [
   'Grand Theft Auto 6 gameplay secrets',
   'GTA 6 characters Lucia Jason',
   'GTA 6 world map discoveries',
+  'GTA 6 release date update',
+  'GTA 6 trailer breakdown analysis',
+  'GTA 6 soundtrack music radio stations',
+  'GTA 6 map leak rumor',
+  'GTA 6 online multiplayer mode',
+  'GTA 6 price preorder editions',
+  'GTA 6 PC release',
+  'GTA 6 weapons vehicles new features',
+  'GTA 6 Rockstar Games statement update',
+  'GTA 6 marketing campaign reveal',
+  'Grand Theft Auto VI review preview',
+  'GTA 6 community reaction fan theories',
 ];
+
+function pickRandomQueries(pool: string[], count: number): string[] {
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
+}
 
 function getSystemPrompt(): string {
   const today = new Date();
@@ -122,11 +139,14 @@ ${sourceText}
 
 Zwróć TYLKO poprawny JSON bez backtick-ów.`;
 
-  const response = await anthropic.messages.create({
+  const response = await openai.chat.completions.create({
     model: MODEL,
-    max_tokens: 4000,
-    system: getSystemPrompt(),
+    max_completion_tokens: 4000,
     messages: [
+      {
+        role: 'system',
+        content: getSystemPrompt(),
+      },
       {
         role: 'user',
         content: userPrompt,
@@ -134,12 +154,12 @@ Zwróć TYLKO poprawny JSON bez backtick-ów.`;
     ],
   });
 
-  const content = response.content[0];
-  if (content.type !== 'text') {
-    throw new Error('Unexpected response type from Claude');
+  const textContent = response.choices[0]?.message?.content;
+  if (!textContent) {
+    throw new Error('Unexpected empty response from OpenAI');
   }
 
-  let jsonText = content.text.trim();
+  let jsonText = textContent.trim();
   // Remove markdown code blocks if present
   if (jsonText.startsWith('```json')) {
     jsonText = jsonText.replace(/^```json\n?/, '').replace(/\n?```$/, '');
@@ -155,7 +175,7 @@ Zwróć TYLKO poprawny JSON bez backtick-ów.`;
     console.error('JSON parsing failed. Response length:', jsonText.length);
     console.error('First 500 chars:', jsonText.substring(0, 500));
     console.error('Last 500 chars:', jsonText.substring(Math.max(0, jsonText.length - 500)));
-    throw new Error(`Failed to parse Claude response as JSON: ${parseError instanceof Error ? parseError.message : String(parseError)}`);
+    throw new Error(`Failed to parse OpenAI response as JSON: ${parseError instanceof Error ? parseError.message : String(parseError)}`);
   }
 
   // Validate required fields
@@ -214,9 +234,10 @@ export async function runPipeline(count: number = 1, autoPublish: boolean = fals
   const articles: Article[] = [];
 
   try {
-    // Step 1: Search for news
+    // Step 1: Search for news (random subset of queries so repeated runs don't hit identical results)
     console.log('Step 1: Searching for GTA 6 news...');
-    const searchResults = await searchMultipleQueries(SEARCH_QUERIES);
+    const activeQueries = pickRandomQueries(SEARCH_QUERIES_POOL, 10);
+    const searchResults = await searchMultipleQueries(activeQueries);
     console.log(`Found ${searchResults.length} unique search results`);
 
     // Step 2: Deduplicate
@@ -225,7 +246,10 @@ export async function runPipeline(count: number = 1, autoPublish: boolean = fals
     console.log(`${deduplicatedResults.length} results after deduplication`);
 
     if (deduplicatedResults.length === 0) {
-      throw new Error('No new sources found after deduplication');
+      console.warn('No new sources found after deduplication — all found articles were already used. Try again later once new news appears.');
+      const durationMs = Date.now() - startTime;
+      await logPipelineRun(searchResults.length, 0, 0, ['No new sources found after deduplication'], durationMs);
+      return [];
     }
 
     // Step 3: Generate articles

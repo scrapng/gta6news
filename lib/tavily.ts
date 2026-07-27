@@ -17,7 +17,9 @@ export async function searchGTA6News(query: string): Promise<SearchResult[]> {
       body: JSON.stringify({
         api_key: TAVILY_API_KEY,
         query,
-        max_results: 5,
+        topic: 'news',
+        days: 14,
+        max_results: 10,
         include_answer: false,
         include_domains: [],
         exclude_domains: [],
